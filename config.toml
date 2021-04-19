@@ -1,0 +1,15 @@
+baseURL = "https://baris.io/"
+languageCode = "en-us"
+title = "baris.io"
+theme="hyde"
+
+[Menus]
+  main = [
+      {Name = "Twitter", URL = "https://twitter.com/bariskalkar"},
+      {Name = "Github", URL = "https://github.com/mbaris/"},
+      {Name = "LinkedIn", URL = "https://www.linkedin.com/in/mbaris/"}
+  ]
+
+[params]
+  description = "My thoughts, ideas and experiences"
+  themeColor = "theme-base-0d"
