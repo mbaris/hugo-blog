@@ -1,0 +1,358 @@
+<!doctype html><html xmlns=http://www.w3.org/1999/xhtml xml:lang=en-us lang=en-us><head><link href=https://gmpg.org/xfn/11 rel=profile><meta charset=utf-8><meta name=generator content="Hugo 0.82.0"><meta name=viewport content="width=device-width,initial-scale=1"><title>Design Patterns - Builder &#183; baris.io</title><meta name=description content><link type=text/css rel=stylesheet href=https://baris.io/css/print.css media=print><link type=text/css rel=stylesheet href=https://baris.io/css/poole.css><link type=text/css rel=stylesheet href=https://baris.io/css/syntax.css><link type=text/css rel=stylesheet href=https://baris.io/css/hyde.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700"><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png></head><body class=theme-base-0d><aside class=sidebar><div class="container sidebar-sticky"><div class=sidebar-about><a href=https://baris.io/><h1>baris.io</h1></a><p class=lead>My thoughts, ideas and experiences</p></div><nav><ul class=sidebar-nav><li><a href=https://baris.io/>Home</a></li><li><a href=https://github.com/mbaris/>Github</a></li><li><a href=https://www.linkedin.com/in/mbaris/>LinkedIn</a></li><li><a href=https://twitter.com/bariskalkar>Twitter</a></li></ul></nav><p>&copy; 2021. All rights reserved.</p></div></aside><main class="content container"><div class=post><h1>Design Patterns - Builder</h1><time datetime=2021-04-19T23:48:35+0200 class=post-date>Mon, Apr 19, 2021</time><p>The builder pattern allows us to write readable and understandable code to build complex objects. It is generally used to handle the construction of objects that contain a lot of parameters. They are usually implemented as static inner classes. StringBuilder is a good example that is used a lot.</p><p>But first, let&rsquo;s talk about the alternatives first.</p><p>##Telescoping constructors
+In this pattern, we have multiple constructors to support multiple combinations of parameters to create an instance.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Movie</span> <span style=color:#f92672>{</span>
+
+  <span style=color:#66d9ef>private</span> String id<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String title<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String director<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String producer<span style=color:#f92672>;</span>
+
+  Movie<span style=color:#f92672>(</span>String id<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> id<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  Movie<span style=color:#f92672>(</span>String id<span style=color:#f92672>,</span> String title<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> id<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>title</span> <span style=color:#f92672>=</span> title<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  Movie<span style=color:#f92672>(</span>String id<span style=color:#f92672>,</span> String title<span style=color:#f92672>,</span> String producer<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> id<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>title</span> <span style=color:#f92672>=</span> title<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>producer</span> <span style=color:#f92672>=</span> producer<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  Movie<span style=color:#f92672>(</span>String id<span style=color:#f92672>,</span> String title<span style=color:#f92672>,</span> String producer<span style=color:#f92672>,</span> String director<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> id<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>title</span> <span style=color:#f92672>=</span> title<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>producer</span> <span style=color:#f92672>=</span> producer<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>director</span> <span style=color:#f92672>=</span> director<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getId</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> id<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getTitle</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> title<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getDirector</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> director<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getProducer</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> producer<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+</code></pre></div><p>This is pretty straightforward but not very useful as the number of fields increases. We create immutable objects with this approach but there are some problems with this approach.</p><ul><li>We need to write a lot of constructors to support all parameter combinations.</li><li>What if we wanted to create a movie with a director but without a producer? This becomes more of a problem if parameters have the same type.</li></ul><p>##Exposed setters
+Another way to deal with this problem is by exposing setters for every field we have.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Movie</span> <span style=color:#f92672>{</span>
+
+  <span style=color:#66d9ef>private</span> String id<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String title<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String director<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String producer<span style=color:#f92672>;</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getId</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> id<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getTitle</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> title<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getDirector</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> director<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getProducer</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> producer<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>setId</span><span style=color:#f92672>(</span>String id<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> id<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>setTitle</span><span style=color:#f92672>(</span>String title<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>title</span> <span style=color:#f92672>=</span> title<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>setDirector</span><span style=color:#f92672>(</span>String director<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>director</span> <span style=color:#f92672>=</span> director<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>setProducer</span><span style=color:#f92672>(</span>String producer<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>producer</span> <span style=color:#f92672>=</span> producer<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+
+</code></pre></div><p>This is probably the most used and simplest pattern since we can easily auto-generate setter and getter methods. But there are some problems with this approach as well</p><ul><li>Exposing setters break immutability so it is not a good idea for <a href=http://www.yegor256.com/2014/06/09/objects-should-be-immutable.html>various reasons</a></li><li>This class doesn&rsquo;t signify which of these setters must be used to create a valid object. So we can create an instance in an invalid state.</li></ul><p>##Builder
+A simple implementation for the builder pattern for the movie class would look like this</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Movie</span> <span style=color:#f92672>{</span>
+
+  <span style=color:#66d9ef>private</span> String id<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String title<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String director<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String producer<span style=color:#f92672>;</span>
+
+  <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>Movie</span><span style=color:#f92672>(</span>Builder builder<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>id</span><span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>title</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>title</span><span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>director</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>director</span><span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>producer</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>producer</span><span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getId</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> id<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getTitle</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> title<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getDirector</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> director<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getProducer</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> producer<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Builder</span> <span style=color:#f92672>{</span>
+
+    <span style=color:#66d9ef>private</span> String id<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>private</span> String title<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>private</span> String director<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>private</span> String producer<span style=color:#f92672>;</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#a6e22e>Builder</span><span style=color:#f92672>(</span>String id<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      Validate<span style=color:#f92672>.</span><span style=color:#a6e22e>notBlank</span><span style=color:#f92672>(</span>id<span style=color:#f92672>);</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> id<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> Builder <span style=color:#a6e22e>setTitle</span><span style=color:#f92672>(</span>String title<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>title</span> <span style=color:#f92672>=</span> title<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> Builder <span style=color:#a6e22e>setDirector</span><span style=color:#f92672>(</span>String director<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>director</span> <span style=color:#f92672>=</span> director<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> Builder <span style=color:#a6e22e>setProducer</span><span style=color:#f92672>(</span>String producer<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>producer</span> <span style=color:#f92672>=</span> producer<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> Movie <span style=color:#a6e22e>build</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Movie<span style=color:#f92672>(</span><span style=color:#66d9ef>this</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+  <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+
+</code></pre></div><ul><li>If we want to make sure some fields are set, we can get them in the builder constructor or we can throw exceptions in the build method or somewhere else by validating them.</li><li>They are very easy to implement</li><li>They have very few drawbacks</li><li>A class with 4 parameters is not hard to build but when you have 9 parameters and 4 of them must not be null, this becomes much more helpful.</li><li>Even though they are generally used as inner static classes we can add a builder to legacy code pretty easily as a separate class</li></ul><p>Using generics makes really efficient constructors even for multiple layers of child-parent hierarchies. Let&rsquo;s have a look at a builder for User and Project which extends CompanyEntity and BaseEntity classes.</p><p>###BaseEntity</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>BaseEntity</span> <span style=color:#f92672>{</span>
+
+  <span style=color:#66d9ef>private</span> String id<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>long</span> createdAt<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>long</span> updatedAt<span style=color:#f92672>;</span>
+
+  BaseEntity<span style=color:#f92672>(</span>Builder builder<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    Validate<span style=color:#f92672>.</span><span style=color:#a6e22e>notBlank</span><span style=color:#f92672>(</span>id<span style=color:#f92672>);</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>id</span><span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>createdAt</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>createdAt</span><span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>updatedAt</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>updatedAt</span><span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getId</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> id<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>long</span> <span style=color:#a6e22e>getCreatedAt</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> createdAt<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>long</span> <span style=color:#a6e22e>getUpdatedAt</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> updatedAt<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>protected</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Builder</span><span style=color:#f92672>&lt;</span>T <span style=color:#66d9ef>extends</span> BaseEntity<span style=color:#f92672>,</span> B <span style=color:#66d9ef>extends</span> Builder<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
+
+    <span style=color:#66d9ef>private</span> String id<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>long</span> createdAt<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>long</span> updatedAt<span style=color:#f92672>;</span>
+
+    <span style=color:#66d9ef>public</span> B <span style=color:#a6e22e>setId</span><span style=color:#f92672>(</span>String id<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>id</span> <span style=color:#f92672>=</span> id<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#f92672>(</span>B<span style=color:#f92672>)</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> B <span style=color:#a6e22e>setCreatedAt</span><span style=color:#f92672>(</span><span style=color:#66d9ef>long</span> createdAt<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>createdAt</span> <span style=color:#f92672>=</span> createdAt<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#f92672>(</span>B<span style=color:#f92672>)</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> B <span style=color:#a6e22e>setUpdatedAt</span><span style=color:#f92672>(</span><span style=color:#66d9ef>long</span> updatedAt<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>updatedAt</span> <span style=color:#f92672>=</span> updatedAt<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#f92672>(</span>B<span style=color:#f92672>)</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> T <span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+  <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+</code></pre></div><p>###CompanyEntity</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CompanyEntity</span> <span style=color:#66d9ef>extends</span> BaseEntity <span style=color:#f92672>{</span>
+
+  <span style=color:#66d9ef>private</span> String companyId<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String companyName<span style=color:#f92672>;</span>
+
+  CompanyEntity<span style=color:#f92672>(</span>Builder builder<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>super</span><span style=color:#f92672>(</span>builder<span style=color:#f92672>);</span>
+    Validate<span style=color:#f92672>.</span><span style=color:#a6e22e>notBlank</span><span style=color:#f92672>(</span>companyId<span style=color:#f92672>);</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>companyId</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>companyId</span><span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>companyName</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>companyName</span><span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getCompanyId</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> companyId<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getCompanyName</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> companyName<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>protected</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Builder</span><span style=color:#f92672>&lt;</span>T <span style=color:#66d9ef>extends</span> CompanyEntity<span style=color:#f92672>,</span> B <span style=color:#66d9ef>extends</span> CompanyEntity<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>&gt;</span> <span style=color:#66d9ef>extends</span>
+      BaseEntity<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>&lt;</span>T<span style=color:#f92672>,</span> B<span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
+
+    <span style=color:#66d9ef>private</span> String companyId<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>private</span> String companyName<span style=color:#f92672>;</span>
+
+    <span style=color:#66d9ef>public</span> B <span style=color:#a6e22e>setCompanyId</span><span style=color:#f92672>(</span>String companyId<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>companyId</span> <span style=color:#f92672>=</span> companyId<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#f92672>(</span>B<span style=color:#f92672>)</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> B <span style=color:#a6e22e>setCompanyName</span><span style=color:#f92672>(</span>String companyName<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>companyName</span> <span style=color:#f92672>=</span> companyName<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#f92672>(</span>B<span style=color:#f92672>)</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+  <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+</code></pre></div><p>###User</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>User</span> <span style=color:#66d9ef>extends</span> CompanyEntity <span style=color:#f92672>{</span>
+
+  <span style=color:#66d9ef>private</span> String username<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String firstName<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String lastName<span style=color:#f92672>;</span>
+
+  User<span style=color:#f92672>(</span>Builder builder<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>super</span><span style=color:#f92672>(</span>builder<span style=color:#f92672>);</span>
+    Validate<span style=color:#f92672>.</span><span style=color:#a6e22e>notBlank</span><span style=color:#f92672>(</span>username<span style=color:#f92672>);</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>username</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>username</span><span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>firstName</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>firstName</span><span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>lastName</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>lastName</span><span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getUsername</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> username<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getFirstName</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> firstName<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getLastName</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> lastName<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Builder</span> <span style=color:#66d9ef>extends</span> CompanyEntity<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>&lt;</span>User<span style=color:#f92672>,</span> User<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
+
+    <span style=color:#66d9ef>private</span> String username<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>private</span> String firstName<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>private</span> String lastName<span style=color:#f92672>;</span>
+
+    <span style=color:#66d9ef>public</span> Builder <span style=color:#a6e22e>setUsername</span><span style=color:#f92672>(</span>String username<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>username</span> <span style=color:#f92672>=</span> username<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> Builder <span style=color:#a6e22e>setFirstName</span><span style=color:#f92672>(</span>String firstName<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>firstName</span> <span style=color:#f92672>=</span> firstName<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> Builder <span style=color:#a6e22e>setLastName</span><span style=color:#f92672>(</span>String lastName<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>lastName</span> <span style=color:#f92672>=</span> lastName<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#a6e22e>@Override</span>
+    <span style=color:#66d9ef>public</span> User <span style=color:#a6e22e>build</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> User<span style=color:#f92672>(</span><span style=color:#66d9ef>this</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+  <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+</code></pre></div><p>###Project</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Project</span> <span style=color:#66d9ef>extends</span> CompanyEntity <span style=color:#f92672>{</span>
+
+  <span style=color:#66d9ef>private</span> String name<span style=color:#f92672>;</span>
+  <span style=color:#66d9ef>private</span> String projectDepartment<span style=color:#f92672>;</span>
+
+  Project<span style=color:#f92672>(</span>Builder builder<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>super</span><span style=color:#f92672>(</span>builder<span style=color:#f92672>);</span>
+    Validate<span style=color:#f92672>.</span><span style=color:#a6e22e>notBlank</span><span style=color:#f92672>(</span>name<span style=color:#f92672>);</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>name</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>name</span><span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>projectDepartment</span> <span style=color:#f92672>=</span> builder<span style=color:#f92672>.</span><span style=color:#a6e22e>projectDepartment</span><span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getName</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> name<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> String <span style=color:#a6e22e>getProjectDepartment</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>return</span> projectDepartment<span style=color:#f92672>;</span>
+  <span style=color:#f92672>}</span>
+
+  <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Builder</span> <span style=color:#66d9ef>extends</span> CompanyEntity<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>&lt;</span>Project<span style=color:#f92672>,</span> Project<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>&gt;</span> <span style=color:#f92672>{</span>
+
+    <span style=color:#66d9ef>private</span> String name<span style=color:#f92672>;</span>
+    <span style=color:#66d9ef>private</span> String projectDepartment<span style=color:#f92672>;</span>
+
+    <span style=color:#66d9ef>public</span> Builder <span style=color:#a6e22e>setName</span><span style=color:#f92672>(</span>String name<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>name</span> <span style=color:#f92672>=</span> name<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> Builder <span style=color:#a6e22e>setProjectDepartment</span><span style=color:#f92672>(</span>String projectDepartment<span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>projectDepartment</span> <span style=color:#f92672>=</span> projectDepartment<span style=color:#f92672>;</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>this</span><span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#a6e22e>@Override</span>
+    <span style=color:#66d9ef>public</span> Project <span style=color:#a6e22e>build</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+      <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>new</span> Project<span style=color:#f92672>(</span><span style=color:#66d9ef>this</span><span style=color:#f92672>);</span>
+    <span style=color:#f92672>}</span>
+  <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+</code></pre></div><p>We can use our builders just like below</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+    User user <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> User<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>setCompanyId</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;OpsGenie&#34;</span><span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>setId</span><span style=color:#f92672>(</span>UUID<span style=color:#f92672>.</span><span style=color:#a6e22e>randomUUID</span><span style=color:#f92672>().</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>setFirstName</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;asd&#34;</span><span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+
+    Project project <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> Project<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>setCompanyId</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;OpsGenie&#34;</span><span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>setId</span><span style=color:#f92672>(</span>UUID<span style=color:#f92672>.</span><span style=color:#a6e22e>randomUUID</span><span style=color:#f92672>().</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>setName</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;thundra&#34;</span><span style=color:#f92672>)</span>
+        <span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
+
+</code></pre></div><p>The reason for using two different generics on our Builder classes are;</p><ul><li>The first one is used in the build method and it returns the type of the child class.</li><li>The second one is used as the return value of our setter methods in the builder. Without it, our setId method would return a BaseEntity.Builder and we couldn&rsquo;t set the child class fields after that.</li></ul></div></main></body></html>
