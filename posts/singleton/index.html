@@ -1,332 +1,82 @@
-<!DOCTYPE html>
-<html lang="en-us">
-    
-    
-
-
-    <head>
-    <link href="https://gmpg.org/xfn/11" rel="profile">
-    
-    <link rel="canonical" href="https://baris.io/posts/singleton/">
-    
-    <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<!-- Enable responsiveness on mobile devices -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.82.1" />
-
-    
-    
-    
-
-<title>Design Patterns - Singleton • baris.io</title>
-
-
-<meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Design Patterns - Singleton"/>
-<meta name="twitter:description" content="Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it."/>
-
-<meta property="og:title" content="Design Patterns - Singleton" />
-<meta property="og:description" content="Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://baris.io/posts/singleton/" /><meta property="article:section" content="posts" />
-<meta property="article:published_time" content="2021-04-19T23:49:53&#43;02:00" />
-<meta property="article:modified_time" content="2021-04-19T23:49:53&#43;02:00" />
-
-
-
-    
-
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/scss/hyde-hyde.9181f25ed2263aeb878ec6f8a84f10c4ebb16150000fca8767308880bdde5ca0.css" integrity="sha256-kYHyXtImOuuHjsb4qE8QxOuxYVAAD8qHZzCIgL3eXKA=">
-
-
-<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
-
-
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <!-- Icons -->
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
-    <link rel="shortcut icon" href="/favicon.png">
-    
-    
-
-</head>
-
-
-    <body class="theme-base-08 ">
-    
-<div class="sidebar">
-  <div class="container ">
-    <div class="sidebar-about">
-      <span class="site__title">
-        <a href="https://baris.io/">
-        
-          baris.io
-        
-        </a>
-      </span>
-      
-      
-      <p class="site__description">
-         My thoughts, ideas and experiences 
-      </p>
-    </div>
-    <div class="collapsible-menu">
-      <input type="checkbox" id="menuToggle">
-      <label for="menuToggle">baris.io</label>
-      <div class="menu-content">
-        <div>
-	<ul class="sidebar-nav">
-		 
-		 
-			 
-				<li>
-					<a href="/posts/">
-						<span>Posts</span>
-					</a>
-				</li>
-			 
-		 
-			 
-				<li>
-					<a href="/about">
-						<span>About</span>
-					</a>
-				</li>
-			 
-		
-	</ul>
-</div>
-
-        <section class="social">
-	
-	<a href="https://twitter.com/bariskalkar" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
-	
-	
-	
-	
-	<a href="https://github.com/mbaris" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
-	
-	
-	
-	
-	
-	
-	
-	<a href="https://linkedin.com/in/mbaris" rel="me"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-</section>
-
-      </div>
-    </div>
-    
-<div class="copyright">
-  &copy; 2021 baris
-  
-</div>
-
-
-
-  </div>
-</div>
-
-        <div class="content container">
-            
-    
-<article>
-  <header>
-    <h1>Design Patterns - Singleton</h1>
-    
-    
-<div class="post__meta">
-    
-    
-      <i class="fas fa-calendar-alt"></i> Apr 19, 2021
-    
-    
-    
-    
-    
-    <br/>
-    <i class="fas fa-clock"></i> 3 min read
-</div>
-
-
-  </header>
-  
-  
-  <div class="post">
-    <p>Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it.</p>
-<p>If we want to have only a single instance of a class and it must be accessible from a well-defined access point we can use singletons. In recent years singletons are seen as <a href="https://stackoverflow.com/questions/137975/what-is-so-bad-about-singletons">bad practice</a> but they are still one of the most well-known design patterns. They are used in logging, caching, hardware interfaces, and configuration/properties files. Singletons are pretty easy(deceptively) to implement.</p>
-<p>For a basic implementation, we need:</p>
-<ul>
-<li>a private constructor to restrict new instance creation</li>
-<li>a static member of singleton type</li>
-<li>a static public getInstance method to give access to this instance</li>
-</ul>
-<p>##Basic Implementation</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MySingleton</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> MySingleton instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MySingleton<span style="color:#f92672">();</span>
-
-    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">MySingleton</span><span style="color:#f92672">(){}</span>
-
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> MySingleton <span style="color:#a6e22e">getInstance</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">return</span> instance<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
-
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doStuff</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#75715e">//some work here
-</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-
-</code></pre></div><p>Although this is usable, we generally want to lazily initialize our singleton instance because if we have a lot of singleton classes and if all of them are eagerly loaded, the startup of our application will be affected.</p>
-<p>##Lazy Loading
-So we can naively change it to something like this.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MySingleton</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> MySingleton instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
-
-    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">MySingleton</span><span style="color:#f92672">(){}</span>
-
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> MySingleton <span style="color:#a6e22e">getInstance</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>instance <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MySingleton<span style="color:#f92672">();</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">return</span> instance<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
-
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doStuff</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#75715e">//some work here
-</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-
-</code></pre></div><p>This is a little bit better but we have new problems now because this implementation is not threadsafe. Also, other people can use reflection to bypass our restriction on the constructor.</p>
-<p>##Thread-Safety
-We should make the instance variable <em>volatile</em> to give it visibility across threads and make the instantiation synchronized.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MySingleton</span> <span style="color:#f92672">{</span>
-    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">volatile</span> MySingleton instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">;</span>
-
-    <span style="color:#66d9ef">private</span> <span style="color:#a6e22e">MySingleton</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>instance <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> IllegalStateException<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;Already instantiated&#34;</span><span style="color:#f92672">);</span>
-        <span style="color:#f92672">}</span>
-    <span style="color:#f92672">}</span>
-
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> MySingleton <span style="color:#a6e22e">getInstance</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>instance <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-            <span style="color:#66d9ef">synchronized</span><span style="color:#f92672">(</span>MySingleton<span style="color:#f92672">.</span><span style="color:#a6e22e">class</span><span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
-                <span style="color:#66d9ef">if</span><span style="color:#f92672">(</span>instance <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span><span style="color:#f92672">){</span>
-                    instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> MySingleton<span style="color:#f92672">();</span>
-                <span style="color:#f92672">}</span>
-            <span style="color:#f92672">}</span>
-        <span style="color:#f92672">}</span>
-        <span style="color:#66d9ef">return</span> instance<span style="color:#f92672">;</span>
-    <span style="color:#f92672">}</span>
-
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doStuff</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#75715e">//some work here
-</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-
-</code></pre></div><p>We compare the instance with null twice, the first one is to not block reads to the instance if it is already initialized. If we made the getInstance method synchronized, it would also work but with much worse performance.</p>
-<p>##Enum Singletons
-Even though it looks like a weird trick, using <a href="https://stackoverflow.com/a/71399">enums</a> is widely accepted as one of the best ways to implement singletons. We solve the problems with thread-safety, reflection, and lazy loading. I did not write about them here but using Enums solve problems with cloning and serialization as well.</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">
-<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">enum</span> MySingleton <span style="color:#f92672">{</span>
-    INSTANCE<span style="color:#f92672">;</span>
-
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">doStuff</span><span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-        <span style="color:#75715e">//some work here
-</span><span style="color:#75715e"></span>    <span style="color:#f92672">}</span>
-<span style="color:#f92672">}</span>
-
-</code></pre></div><p>We should consider these before using singletons:</p>
-<ul>
-<li>They violate the <a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">SRP</a> since they control their lifecycle and behavior</li>
-<li>They cause the code to be <a href="https://stackoverflow.com/q/2832017">tightly coupled</a></li>
-<li>They make testing <a href="https://stackoverflow.com/a/2085988">harder</a></li>
-<li>If we are not careful they are not thread-safe</li>
-</ul>
-<p>Spring beans have singleton scope by default but they are not exactly the same concept. Java Singletons are scoped by the Java class loader, Spring singletons on the other hand can be any class we have written but spring will only create one instance for that class in that container context.</p>
-
-  </div>
-  
-
-<div class="navigation navigation-single">
-    
-    <a href="/posts/builder/" class="navigation-prev">
-      <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Design Patterns - Builder</span>
-    </a>
-    
-    
-    <a href="/posts/observability/" class="navigation-next">
-      <span class="navigation-tittle">Observability 101</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
-    
-</div>
-
-
-  
-
-  
-    
-
-
-</article>
-
-
-        </div>
-        
-    
-
-<script defer src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
-
-
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
-        
-    <script type="text/javascript">
-        
-        hljs.initHighlightingOnLoad();
-    </script>
-    
-
-
-
-    
-
-
-
-    </body>
-</html>
+<!doctype html><html lang=en-us><head><link href=https://gmpg.org/xfn/11 rel=profile><link rel=canonical href=https://baris.io/posts/singleton/><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta name=generator content="Hugo 0.82.1"><title>Design Patterns - Singleton • baris.io</title><meta name=twitter:card content="summary"><meta name=twitter:title content="Design Patterns - Singleton"><meta name=twitter:description content="Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it."><meta property="og:title" content="Design Patterns - Singleton"><meta property="og:description" content="Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it."><meta property="og:type" content="article"><meta property="og:url" content="https://baris.io/posts/singleton/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2021-04-19T23:49:53+02:00"><meta property="article:modified_time" content="2021-04-19T23:49:53+02:00"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css><link rel=stylesheet href=/scss/hyde-hyde.9181f25ed2263aeb878ec6f8a84f10c4ebb16150000fca8767308880bdde5ca0.css integrity="sha256-kYHyXtImOuuHjsb4qE8QxOuxYVAAD8qHZzCIgL3eXKA="><link rel=stylesheet href=/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58+TzH3icCkSHGoJ+ed7w=" media=print><!--[if lt IE 9]><script src=https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js></script><script src=https://oss.maxcdn.com/respond/1.4.2/respond.min.js></script><![endif]--><link rel=apple-touch-icon-precomposed sizes=144x144 href=/apple-touch-icon-144-precomposed.png><link rel="shortcut icon" href=/favicon.png></head><body class=theme-base-08><div class=sidebar><div class=container><div class=sidebar-about><span class=site__title><a href=https://baris.io/>baris.io</a></span><p class=site__description>My thoughts, ideas and experiences</p></div><div class=collapsible-menu><input type=checkbox id=menuToggle>
+<label for=menuToggle>baris.io</label><div class=menu-content><div><ul class=sidebar-nav><li><a href=/posts/><span>Posts</span></a></li><li><a href=/about><span>About</span></a></li></ul></div><section class=social><a href=https://twitter.com/bariskalkar rel=me><i class="fab fa-twitter fa-lg" aria-hidden=true></i></a>
+<a href=https://github.com/mbaris rel=me><i class="fab fa-github fa-lg" aria-hidden=true></i></a>
+<a href=https://linkedin.com/in/mbaris rel=me><i class="fab fa-linkedin fa-lg" aria-hidden=true></i></a></section></div></div><div class=copyright>&copy; 2021 baris</div></div></div><div class="content container"><article><header><h1>Design Patterns - Singleton</h1><div class=post__meta><i class="fas fa-calendar-alt"></i> Apr 19, 2021
+in
+<a class="badge badge-category" href=/categories/programming>PROGRAMMING</a><br><i class="fas fa-tags"></i>
+<a class="badge badge-tag" href=/tags/java>java</a>
+<a class="badge badge-tag" href=/tags/design-patterns>design-patterns</a><br><i class="fas fa-clock"></i> 3 min read</div></header><div class=post><p>Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it.</p><p>If we want to have only a single instance of a class and it must be accessible from a well-defined access point we can use singletons. In recent years singletons are seen as <a href=https://stackoverflow.com/questions/137975/what-is-so-bad-about-singletons>bad practice</a> but they are still one of the most well-known design patterns. They are used in logging, caching, hardware interfaces, and configuration/properties files. Singletons are pretty easy(deceptively) to implement.</p><p>For a basic implementation, we need:</p><ul><li>a private constructor to restrict new instance creation</li><li>a static member of singleton type</li><li>a static public getInstance method to give access to this instance</li></ul><p>##Basic Implementation</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MySingleton</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> MySingleton instance <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> MySingleton<span style=color:#f92672>();</span>
+
+    <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>MySingleton</span><span style=color:#f92672>(){}</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> MySingleton <span style=color:#a6e22e>getInstance</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>return</span> instance<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>doStuff</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>//some work here
+</span><span style=color:#75715e></span>    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+</code></pre></div><p>Although this is usable, we generally want to lazily initialize our singleton instance because if we have a lot of singleton classes and if all of them are eagerly loaded, the startup of our application will be affected.</p><p>##Lazy Loading
+So we can naively change it to something like this.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MySingleton</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> MySingleton instance <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>;</span>
+
+    <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>MySingleton</span><span style=color:#f92672>(){}</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> MySingleton <span style=color:#a6e22e>getInstance</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>if</span><span style=color:#f92672>(</span>instance <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            instance <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> MySingleton<span style=color:#f92672>();</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>return</span> instance<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>doStuff</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>//some work here
+</span><span style=color:#75715e></span>    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+</code></pre></div><p>This is a little bit better but we have new problems now because this implementation is not threadsafe. Also, other people can use reflection to bypass our restriction on the constructor.</p><p>##Thread-Safety
+We should make the instance variable <em>volatile</em> to give it visibility across threads and make the instantiation synchronized.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>MySingleton</span> <span style=color:#f92672>{</span>
+    <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>static</span> <span style=color:#66d9ef>volatile</span> MySingleton instance <span style=color:#f92672>=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>;</span>
+
+    <span style=color:#66d9ef>private</span> <span style=color:#a6e22e>MySingleton</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>if</span><span style=color:#f92672>(</span>instance <span style=color:#f92672>!=</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>throw</span> <span style=color:#66d9ef>new</span> IllegalStateException<span style=color:#f92672>(</span><span style=color:#e6db74>&#34;Already instantiated&#34;</span><span style=color:#f92672>);</span>
+        <span style=color:#f92672>}</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>static</span> MySingleton <span style=color:#a6e22e>getInstance</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#66d9ef>if</span><span style=color:#f92672>(</span>instance <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+            <span style=color:#66d9ef>synchronized</span><span style=color:#f92672>(</span>MySingleton<span style=color:#f92672>.</span><span style=color:#a6e22e>class</span><span style=color:#f92672>)</span> <span style=color:#f92672>{</span>
+                <span style=color:#66d9ef>if</span><span style=color:#f92672>(</span>instance <span style=color:#f92672>==</span> <span style=color:#66d9ef>null</span><span style=color:#f92672>){</span>
+                    instance <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> MySingleton<span style=color:#f92672>();</span>
+                <span style=color:#f92672>}</span>
+            <span style=color:#f92672>}</span>
+        <span style=color:#f92672>}</span>
+        <span style=color:#66d9ef>return</span> instance<span style=color:#f92672>;</span>
+    <span style=color:#f92672>}</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>doStuff</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>//some work here
+</span><span style=color:#75715e></span>    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+</code></pre></div><p>We compare the instance with null twice, the first one is to not block reads to the instance if it is already initialized. If we made the getInstance method synchronized, it would also work but with much worse performance.</p><p>##Enum Singletons
+Even though it looks like a weird trick, using <a href=https://stackoverflow.com/a/71399>enums</a> is widely accepted as one of the best ways to implement singletons. We solve the problems with thread-safety, reflection, and lazy loading. I did not write about them here but using Enums solve problems with cloning and serialization as well.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
+<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>enum</span> MySingleton <span style=color:#f92672>{</span>
+    INSTANCE<span style=color:#f92672>;</span>
+
+    <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>void</span> <span style=color:#a6e22e>doStuff</span><span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+        <span style=color:#75715e>//some work here
+</span><span style=color:#75715e></span>    <span style=color:#f92672>}</span>
+<span style=color:#f92672>}</span>
+
+</code></pre></div><p>We should consider these before using singletons:</p><ul><li>They violate the <a href=https://en.wikipedia.org/wiki/Single_responsibility_principle>SRP</a> since they control their lifecycle and behavior</li><li>They cause the code to be <a href=https://stackoverflow.com/q/2832017>tightly coupled</a></li><li>They make testing <a href=https://stackoverflow.com/a/2085988>harder</a></li><li>If we are not careful they are not thread-safe</li></ul><p>Spring beans have singleton scope by default but they are not exactly the same concept. Java Singletons are scoped by the Java class loader, Spring singletons on the other hand can be any class we have written but spring will only create one instance for that class in that container context.</p></div><div class="navigation navigation-single"><a href=/posts/builder/ class=navigation-prev><i aria-hidden=true class="fa fa-chevron-left"></i>
+<span class=navigation-tittle>Design Patterns - Builder</span></a>
+<a href=/posts/observability/ class=navigation-next><span class=navigation-tittle>Observability 101</span>
+<i aria-hidden=true class="fa fa-chevron-right"></i></a></div></article></div><script defer src=https://use.fontawesome.com/releases/v5.12.1/js/all.js integrity=sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js></script><script type=text/javascript>hljs.initHighlightingOnLoad()</script></body></html>
