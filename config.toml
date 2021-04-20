@@ -1,15 +1,53 @@
 baseURL = "https://baris.io/"
 languageCode = "en-us"
 title = "baris.io"
-theme="hyde"
+theme="hermit"
 
-[Menus]
-  main = [
-      {Name = "Twitter", URL = "https://twitter.com/bariskalkar"},
-      {Name = "Github", URL = "https://github.com/mbaris/"},
-      {Name = "LinkedIn", URL = "https://www.linkedin.com/in/mbaris/"}
-  ]
+pygmentsCodefences  = true
+pygmentsUseClasses  = true
+enableEmoji = true
+googleAnalytics = "UA-56410734-1"
+
+[author]
+  name = "Mehmet Barış Kalkar"
+
+[taxonomies]
+  tag = "tags"
 
 [params]
-  description = "My thoughts, ideas and experiences"
-  themeColor = "theme-base-0d"
+  bgImg = "skyline.jpeg"
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04 -0700"
+  description = "Mehmet Baris Kalkar's dev diary"
+  homeSubtitle="My thoughts and experiences on technology"
+
+  [[params.social]]
+    name = "twitter"
+    url = "https://twitter.com/bariskalkar"
+
+  [[params.social]]
+    name = "linkedin"
+    url = "https://linkedin.com/in/mbaris"
+
+  [[params.social]]
+    name = "github"
+    url = "https://github.com/mbaris"
+
+[menu]
+
+  [[menu.main]]
+    name = "Posts"
+    url = "posts/"
+    weight = 10
+
+  [[menu.main]]
+    name = "Tags"
+    url = "tags/"
+    weight = 20 
+
+  [[menu.main]]
+    name = "About"
+    url = "about/"
+    weight = 30

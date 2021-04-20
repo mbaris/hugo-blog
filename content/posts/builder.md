@@ -2,18 +2,20 @@
 title: "Design Patterns - Builder"
 date: 2021-04-19T23:48:35+02:00
 draft: false
-summary: "The builder pattern allows us to write readable and understandable code to build complex objects."
+tags: ["programming", "java", "design-patterns"]
+description: "The builder pattern allows us to write readable and understandable code to build complex objects."
 ---
 
-The builder pattern allows us to write readable and understandable code to build complex objects. It is generally used to handle the construction of objects that contain a lot of parameters. They are usually implemented as static inner classes. StringBuilder is a good example that is used a lot.
+The builder pattern allows us to write readable and understandable code to build complex objects. 
+It is generally used to handle the construction of objects that contain a lot of parameters. 
+They are usually implemented as static inner classes. StringBuilder is a good example that is used a lot.
 
 But first, let's talk about the alternatives first.
 
-##Telescoping constructors
+## Telescoping constructors
 In this pattern, we have multiple constructors to support multiple combinations of parameters to create an instance. 
 
 ``` java
-
 public class Movie {
 
   private String id;
@@ -59,18 +61,17 @@ public class Movie {
     return producer;
   }
 }
-
 ```
 
-This is pretty straightforward but not very useful as the number of fields increases. We create immutable objects with this approach but there are some problems with this approach.
+This is pretty straightforward but not very useful as the number of fields increases. 
+We create immutable objects with this approach but there are some problems with this approach.
 * We need to write a lot of constructors to support all parameter combinations. 
 * What if we wanted to create a movie with a director but without a producer? This becomes more of a problem if parameters have the same type.
 
-##Exposed setters
+## Exposed setters
 Another way to deal with this problem is by exposing setters for every field we have. 
 
 ``` java
-
 public class Movie {
 
   private String id;
@@ -110,18 +111,17 @@ public class Movie {
     this.producer = producer;
   }
 }
-
-
 ```
 
-This is probably the most used and simplest pattern since we can easily auto-generate setter and getter methods. But there are some problems with this approach as well
-* Exposing setters break immutability so it is not a good idea for [various reasons](http://www.yegor256.com/2014/06/09/objects-should-be-immutable.html)
+This is probably the most used and simplest pattern since we can easily auto-generate setter and getter methods. 
+There are some problems with this approach as well
+* Exposing setters break immutability, so it is not a good idea for [various reasons](http://www.yegor256.com/2014/06/09/objects-should-be-immutable.html)
 * This class doesn't signify which of these setters must be used to create a valid object. So we can create an instance in an invalid state.
 
-##Builder
+## Builder
 A simple implementation for the builder pattern for the movie class would look like this
-``` java
 
+``` java
 public class Movie {
 
   private String id;
@@ -184,12 +184,10 @@ public class Movie {
     }
   }
 }
-
-
 ```
 
 
-* If we want to make sure some fields are set, we can get them in the builder constructor or we can throw exceptions in the build method or somewhere else by validating them.
+* If we want to make sure some fields are set, we can get them in the builder, constructor, or we can throw exceptions in the build method or somewhere else by validating them.
 * They are very easy to implement
 * They have very few drawbacks
 * A class with 4 parameters is not hard to build but when you have 9 parameters and 4 of them must not be null, this becomes much more helpful.
@@ -197,9 +195,8 @@ public class Movie {
 
 Using generics makes really efficient constructors even for multiple layers of child-parent hierarchies. Let's have a look at a builder for User and Project which extends CompanyEntity and BaseEntity classes.
 
-###BaseEntity
+### BaseEntity
 ``` java
-
 public abstract class BaseEntity {
 
   private String id;
@@ -249,12 +246,10 @@ public abstract class BaseEntity {
     public abstract T build();
   }
 }
-
 ```
 
-###CompanyEntity
+### CompanyEntity
 ``` java
-
 public abstract class CompanyEntity extends BaseEntity {
 
   private String companyId;
@@ -292,11 +287,10 @@ public abstract class CompanyEntity extends BaseEntity {
     }
   }
 }
-
 ```
-###User
-``` java
 
+### User
+``` java
 public class User extends CompanyEntity {
 
   private String username;
@@ -350,12 +344,9 @@ public class User extends CompanyEntity {
     }
   }
 }
-
 ```
-
-###Project
+### Project
 ``` java
-
 public class Project extends CompanyEntity {
 
   private String name;
@@ -398,11 +389,9 @@ public class Project extends CompanyEntity {
   }
 }
 ```
-
 We can use our builders just like below
 
 ``` java
-
     User user = new User.Builder()
         .setCompanyId("OpsGenie")
         .setId(UUID.randomUUID().toString())
@@ -414,9 +403,9 @@ We can use our builders just like below
         .setId(UUID.randomUUID().toString())
         .setName("thundra")
         .build();
-
 ```
 
 The reason for using two different generics on our Builder classes are; 
-* The first one is used in the build method and it returns the type of the child class.
-* The second one is used as the return value of our setter methods in the builder. Without it, our setId method would return a BaseEntity.Builder and we couldn't set the child class fields after that. 
+* The first one is used in the build method, and it returns the type of the child class.
+* The second one is used as the return value of our setter methods in the builder. 
+  Without it, our setId method would return a BaseEntity.Builder and we couldn't set the child class fields after that. 

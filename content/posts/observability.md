@@ -2,10 +2,13 @@
 title: "Observability 101"
 date: 2021-04-19T23:50:25+02:00
 draft: false
-summary: "Observability is a measure of how well internal states of a system can be inferred from knowledge of its external outputs."
+tags: ["devops" ,"monitoring", "infrastructure"]
+description: "We have to assume things can and will break when we do not expect. So we have to make sure it is possible to understand what is happening in our services it any given time"
 ---
 
-Systems we build and maintain are becoming more complex and abstract with the increase in popularity of distributed systems, microservices, and cloud providers. With these new concepts, our view of failures has changed as well. We have to assume things can and will break and we have to make sure it possible to understand what is happening in our applications behind the scenes at any given time.
+Systems we build and maintain are becoming more complex and abstract with the increase in popularity of distributed systems, microservices, and cloud providers. With these new concepts, our view of failures has changed as well. 
+
+We have to assume things can and will break when we do not expect. So we have to make sure it is possible to understand what is happening in our services it any given time
 
 ## Observability 
 
@@ -18,8 +21,6 @@ In software, these external outputs are usually grouped as *Logs*, *Metrics*, an
 
 Monitoring is another keyword that is used together with observability. It is the act of collecting these external outputs and after aggregating, analyzing and visualizing them, creating meaningful alerts with this data. These two concepts are closely related because the higher observability a system has, the better you can monitor it. 
 
-![Alt Text](https://dev-to-uploads.s3.amazonaws.com/i/ltr64lsw3tx2bo3cjomv.jpeg)
-
 ## Expected and Unexpected Problems 
 
 Monitoring is helpful when expected things fail. And by expected, I mean things we can set alerts on beforehand. We can start monitoring common things every single software system has like CPU, memory or disk usage, request counts, 4xx responses, 5xx responses and average/max durations. Then we can set alarms on Exceptions from the codebase by checking logs or something more advanced. We can also take it one step further and monitor application/domain specific events like login requests or purchase event numbers, revenue etc. 
@@ -30,8 +31,6 @@ Observability on the other hand helps with dealing with unexpected problems as w
 1. using the same traceId from logs, we can analyze the lifecycle of problematic requests
 
 Sometimes we can find causes of problems very easily and go on with our lives and sometimes even with all the data in our hands, it is really difficult to find something concrete. There is always room for improvement with dashboards, alert runbooks and better log messages. 
-
-![Alt Text](https://dev-to-uploads.s3.amazonaws.com/i/gepjcdfzxgkpo77dzf8i.jpeg)
 
 ## Benefits
 
