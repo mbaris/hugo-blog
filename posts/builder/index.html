@@ -5,9 +5,7 @@
 in
 <a class="badge badge-category" href=/categories/programming>PROGRAMMING</a><br><i class="fas fa-tags"></i>
 <a class="badge badge-tag" href=/tags/java>java</a>
-<a class="badge badge-tag" href=/tags/design-patterns>design-patterns</a><br><i class="fas fa-clock"></i> 6 min read</div></header><div class=post><p>The builder pattern allows us to write readable and understandable code to build complex objects. It is generally used to handle the construction of objects that contain a lot of parameters. They are usually implemented as static inner classes. StringBuilder is a good example that is used a lot.</p><p>But first, let&rsquo;s talk about the alternatives first.</p><p>##Telescoping constructors
-In this pattern, we have multiple constructors to support multiple combinations of parameters to create an instance.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
-<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Movie</span> <span style=color:#f92672>{</span>
+<a class="badge badge-tag" href=/tags/design-patterns>design-patterns</a><br><i class="fas fa-clock"></i> 6 min read</div></header><div class=post><p>The builder pattern allows us to write readable and understandable code to build complex objects. It is generally used to handle the construction of objects that contain a lot of parameters. They are usually implemented as static inner classes. StringBuilder is a good example that is used a lot.</p><p>But first, let&rsquo;s talk about the alternatives first.</p><h2 id=telescoping-constructors>Telescoping constructors</h2><p>In this pattern, we have multiple constructors to support multiple combinations of parameters to create an instance.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Movie</span> <span style=color:#f92672>{</span>
 
   <span style=color:#66d9ef>private</span> String id<span style=color:#f92672>;</span>
   <span style=color:#66d9ef>private</span> String title<span style=color:#f92672>;</span>
@@ -52,10 +50,7 @@ In this pattern, we have multiple constructors to support multiple combinations 
     <span style=color:#66d9ef>return</span> producer<span style=color:#f92672>;</span>
   <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
-
-</code></pre></div><p>This is pretty straightforward but not very useful as the number of fields increases. We create immutable objects with this approach but there are some problems with this approach.</p><ul><li>We need to write a lot of constructors to support all parameter combinations.</li><li>What if we wanted to create a movie with a director but without a producer? This becomes more of a problem if parameters have the same type.</li></ul><p>##Exposed setters
-Another way to deal with this problem is by exposing setters for every field we have.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
-<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Movie</span> <span style=color:#f92672>{</span>
+</code></pre></div><p>This is pretty straightforward but not very useful as the number of fields increases. We create immutable objects with this approach but there are some problems with this approach.</p><ul><li>We need to write a lot of constructors to support all parameter combinations.</li><li>What if we wanted to create a movie with a director but without a producer? This becomes more of a problem if parameters have the same type.</li></ul><h2 id=exposed-setters>Exposed setters</h2><p>Another way to deal with this problem is by exposing setters for every field we have.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Movie</span> <span style=color:#f92672>{</span>
 
   <span style=color:#66d9ef>private</span> String id<span style=color:#f92672>;</span>
   <span style=color:#66d9ef>private</span> String title<span style=color:#f92672>;</span>
@@ -94,11 +89,7 @@ Another way to deal with this problem is by exposing setters for every field we 
     <span style=color:#66d9ef>this</span><span style=color:#f92672>.</span><span style=color:#a6e22e>producer</span> <span style=color:#f92672>=</span> producer<span style=color:#f92672>;</span>
   <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
-
-
-</code></pre></div><p>This is probably the most used and simplest pattern since we can easily auto-generate setter and getter methods. But there are some problems with this approach as well</p><ul><li>Exposing setters break immutability so it is not a good idea for <a href=http://www.yegor256.com/2014/06/09/objects-should-be-immutable.html>various reasons</a></li><li>This class doesn&rsquo;t signify which of these setters must be used to create a valid object. So we can create an instance in an invalid state.</li></ul><p>##Builder
-A simple implementation for the builder pattern for the movie class would look like this</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
-<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Movie</span> <span style=color:#f92672>{</span>
+</code></pre></div><p>This is probably the most used and simplest pattern since we can easily auto-generate setter and getter methods. But there are some problems with this approach as well</p><ul><li>Exposing setters break immutability so it is not a good idea for <a href=http://www.yegor256.com/2014/06/09/objects-should-be-immutable.html>various reasons</a></li><li>This class doesn&rsquo;t signify which of these setters must be used to create a valid object. So we can create an instance in an invalid state.</li></ul><h2 id=builder>Builder</h2><p>A simple implementation for the builder pattern for the movie class would look like this</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Movie</span> <span style=color:#f92672>{</span>
 
   <span style=color:#66d9ef>private</span> String id<span style=color:#f92672>;</span>
   <span style=color:#66d9ef>private</span> String title<span style=color:#f92672>;</span>
@@ -160,10 +151,7 @@ A simple implementation for the builder pattern for the movie class would look l
     <span style=color:#f92672>}</span>
   <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
-
-
-</code></pre></div><ul><li>If we want to make sure some fields are set, we can get them in the builder constructor or we can throw exceptions in the build method or somewhere else by validating them.</li><li>They are very easy to implement</li><li>They have very few drawbacks</li><li>A class with 4 parameters is not hard to build but when you have 9 parameters and 4 of them must not be null, this becomes much more helpful.</li><li>Even though they are generally used as inner static classes we can add a builder to legacy code pretty easily as a separate class</li></ul><p>Using generics makes really efficient constructors even for multiple layers of child-parent hierarchies. Let&rsquo;s have a look at a builder for User and Project which extends CompanyEntity and BaseEntity classes.</p><p>###BaseEntity</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
-<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>BaseEntity</span> <span style=color:#f92672>{</span>
+</code></pre></div><ul><li>If we want to make sure some fields are set, we can get them in the builder constructor or we can throw exceptions in the build method or somewhere else by validating them.</li><li>They are very easy to implement</li><li>They have very few drawbacks</li><li>A class with 4 parameters is not hard to build but when you have 9 parameters and 4 of them must not be null, this becomes much more helpful.</li><li>Even though they are generally used as inner static classes we can add a builder to legacy code pretty easily as a separate class</li></ul><p>Using generics makes really efficient constructors even for multiple layers of child-parent hierarchies. Let&rsquo;s have a look at a builder for User and Project which extends CompanyEntity and BaseEntity classes.</p><h3 id=baseentity>BaseEntity</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>BaseEntity</span> <span style=color:#f92672>{</span>
 
   <span style=color:#66d9ef>private</span> String id<span style=color:#f92672>;</span>
   <span style=color:#66d9ef>private</span> <span style=color:#66d9ef>long</span> createdAt<span style=color:#f92672>;</span>
@@ -212,9 +200,7 @@ A simple implementation for the builder pattern for the movie class would look l
     <span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> T <span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
   <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
-
-</code></pre></div><p>###CompanyEntity</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
-<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CompanyEntity</span> <span style=color:#66d9ef>extends</span> BaseEntity <span style=color:#f92672>{</span>
+</code></pre></div><h3 id=companyentity>CompanyEntity</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>abstract</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>CompanyEntity</span> <span style=color:#66d9ef>extends</span> BaseEntity <span style=color:#f92672>{</span>
 
   <span style=color:#66d9ef>private</span> String companyId<span style=color:#f92672>;</span>
   <span style=color:#66d9ef>private</span> String companyName<span style=color:#f92672>;</span>
@@ -251,9 +237,7 @@ A simple implementation for the builder pattern for the movie class would look l
     <span style=color:#f92672>}</span>
   <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
-
-</code></pre></div><p>###User</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
-<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>User</span> <span style=color:#66d9ef>extends</span> CompanyEntity <span style=color:#f92672>{</span>
+</code></pre></div><h3 id=user>User</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>User</span> <span style=color:#66d9ef>extends</span> CompanyEntity <span style=color:#f92672>{</span>
 
   <span style=color:#66d9ef>private</span> String username<span style=color:#f92672>;</span>
   <span style=color:#66d9ef>private</span> String firstName<span style=color:#f92672>;</span>
@@ -306,9 +290,7 @@ A simple implementation for the builder pattern for the movie class would look l
     <span style=color:#f92672>}</span>
   <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
-
-</code></pre></div><p>###Project</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
-<span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Project</span> <span style=color:#66d9ef>extends</span> CompanyEntity <span style=color:#f92672>{</span>
+</code></pre></div><h3 id=project>Project</h3><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java><span style=color:#66d9ef>public</span> <span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Project</span> <span style=color:#66d9ef>extends</span> CompanyEntity <span style=color:#f92672>{</span>
 
   <span style=color:#66d9ef>private</span> String name<span style=color:#f92672>;</span>
   <span style=color:#66d9ef>private</span> String projectDepartment<span style=color:#f92672>;</span>
@@ -349,8 +331,7 @@ A simple implementation for the builder pattern for the movie class would look l
     <span style=color:#f92672>}</span>
   <span style=color:#f92672>}</span>
 <span style=color:#f92672>}</span>
-</code></pre></div><p>We can use our builders just like below</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>
-    User user <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> User<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
+</code></pre></div><p>We can use our builders just like below</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-java data-lang=java>    User user <span style=color:#f92672>=</span> <span style=color:#66d9ef>new</span> User<span style=color:#f92672>.</span><span style=color:#a6e22e>Builder</span><span style=color:#f92672>()</span>
         <span style=color:#f92672>.</span><span style=color:#a6e22e>setCompanyId</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;OpsGenie&#34;</span><span style=color:#f92672>)</span>
         <span style=color:#f92672>.</span><span style=color:#a6e22e>setId</span><span style=color:#f92672>(</span>UUID<span style=color:#f92672>.</span><span style=color:#a6e22e>randomUUID</span><span style=color:#f92672>().</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
         <span style=color:#f92672>.</span><span style=color:#a6e22e>setFirstName</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;asd&#34;</span><span style=color:#f92672>)</span>
@@ -361,6 +342,5 @@ A simple implementation for the builder pattern for the movie class would look l
         <span style=color:#f92672>.</span><span style=color:#a6e22e>setId</span><span style=color:#f92672>(</span>UUID<span style=color:#f92672>.</span><span style=color:#a6e22e>randomUUID</span><span style=color:#f92672>().</span><span style=color:#a6e22e>toString</span><span style=color:#f92672>())</span>
         <span style=color:#f92672>.</span><span style=color:#a6e22e>setName</span><span style=color:#f92672>(</span><span style=color:#e6db74>&#34;thundra&#34;</span><span style=color:#f92672>)</span>
         <span style=color:#f92672>.</span><span style=color:#a6e22e>build</span><span style=color:#f92672>();</span>
-
 </code></pre></div><p>The reason for using two different generics on our Builder classes are;</p><ul><li>The first one is used in the build method and it returns the type of the child class.</li><li>The second one is used as the return value of our setter methods in the builder. Without it, our setId method would return a BaseEntity.Builder and we couldn&rsquo;t set the child class fields after that.</li></ul></div><div class="navigation navigation-single"><a href=/posts/singleton/ class=navigation-next><span class=navigation-tittle>Design Patterns - Singleton</span>
 <i aria-hidden=true class="fa fa-chevron-right"></i></a></div></article></div><script defer src=https://use.fontawesome.com/releases/v5.12.1/js/all.js integrity=sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js></script><script type=text/javascript>hljs.initHighlightingOnLoad()</script></body></html>
