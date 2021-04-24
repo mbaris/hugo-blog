@@ -1,1 +1,494 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 19 Apr 2021 23:50:25 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Observability 101</title><link>https://baris.io/posts/observability/</link><pubDate>Mon, 19 Apr 2021 23:50:25 +0200</pubDate><guid>https://baris.io/posts/observability/</guid><description>Observability is a measure of how well internal states of a system can be inferred from knowledge of its external outputs.</description></item><item><title>Design Patterns - Singleton</title><link>https://baris.io/posts/singleton/</link><pubDate>Mon, 19 Apr 2021 23:49:53 +0200</pubDate><guid>https://baris.io/posts/singleton/</guid><description>Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it.</description></item><item><title>Design Patterns - Builder</title><link>https://baris.io/posts/builder/</link><pubDate>Mon, 19 Apr 2021 23:48:35 +0200</pubDate><guid>https://baris.io/posts/builder/</guid><description>The builder pattern allows us to write readable and understandable code to build complex objects.</description></item></channel></rss>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 19 Apr 2021 23:50:25 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Observability 101</title><link>https://baris.io/posts/observability/</link><pubDate>Mon, 19 Apr 2021 23:50:25 +0200</pubDate><guid>https://baris.io/posts/observability/</guid><description>Systems we build and maintain are becoming more complex and abstract with the increase in popularity of distributed systems, microservices, and cloud providers. With these new concepts, our view of failures has changed as well. We have to assume things can and will break and we have to make sure it possible to understand what is happening in our applications behind the scenes at any given time.
+Observability The Wikipedia definition of observability is</description><content type="html"><![CDATA[<p>Systems we build and maintain are becoming more complex and abstract with the increase in popularity of distributed systems, microservices, and cloud providers. With these new concepts, our view of failures has changed as well. We have to assume things can and will break and we have to make sure it possible to understand what is happening in our applications behind the scenes at any given time.</p>
+<h2 id="observability">Observability</h2>
+<p>The Wikipedia definition of observability is</p>
+<blockquote>
+<p>observability is a measure of how well internal states of a system can be inferred from knowledge of its external outputs.</p>
+</blockquote>
+<p>In software, these external outputs are usually grouped as <em>Logs</em>, <em>Metrics</em>, and <em>Request Traces</em>. Called <em>The Three Pillars of Observability</em>, they solve different problems, have different weaknesses and strengths.</p>
+<h2 id="monitoring">Monitoring</h2>
+<p>Monitoring is another keyword that is used together with observability. It is the act of collecting these external outputs and after aggregating, analyzing and visualizing them, creating meaningful alerts with this data. These two concepts are closely related because the higher observability a system has, the better you can monitor it.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/i/ltr64lsw3tx2bo3cjomv.jpeg" alt="Alt Text"></p>
+<h2 id="expected-and-unexpected-problems">Expected and Unexpected Problems</h2>
+<p>Monitoring is helpful when expected things fail. And by expected, I mean things we can set alerts on beforehand. We can start monitoring common things every single software system has like CPU, memory or disk usage, request counts, 4xx responses, 5xx responses and average/max durations. Then we can set alarms on Exceptions from the codebase by checking logs or something more advanced. We can also take it one step further and monitor application/domain specific events like login requests or purchase event numbers, revenue etc.</p>
+<p>Observability on the other hand helps with dealing with unexpected problems as well. To find the root cause of a completely new problem we can follow steps like this:</p>
+<ol>
+<li>check metrics to search for an anomaly(long durations, 5xx responses etc.)</li>
+<li>focusing on a specific timeframe in logs, we can try to find a problematic event. We can search for the relevant log entries for the same request with a traceId</li>
+<li>using the same traceId from logs, we can analyze the lifecycle of problematic requests</li>
+</ol>
+<p>Sometimes we can find causes of problems very easily and go on with our lives and sometimes even with all the data in our hands, it is really difficult to find something concrete. There is always room for improvement with dashboards, alert runbooks and better log messages.</p>
+<p><img src="https://dev-to-uploads.s3.amazonaws.com/i/gepjcdfzxgkpo77dzf8i.jpeg" alt="Alt Text"></p>
+<h2 id="benefits">Benefits</h2>
+<p>Both observability and monitoring are highly valuable concepts because in an ideal world:</p>
+<ol>
+<li>If there are no problems in the system, we should be able to relax and sleep at night knowing that we would be notified with an alert if and when something goes wrong.</li>
+<li>And when there is a problem, we should first be notified and then have the required information available to investigate the root cause and do something in a short time.</li>
+<li>Another huge benefit of having an observable and monitored system is that it provides confidence and speed to developers. They can know if a change has caused any problems or not. And if it did, they are aware of the problem as soon as possible and more consistently.</li>
+</ol>
+<h2 id="future">Future</h2>
+<p>With successful projects like OpenTelemetry(previously OpenTracing and OpenCensus) and OpenMetrics there is a lot of discussion and standardization taking place in this area. It is an exciting field with lots of things to learn so I hope to learn and write more about this.</p>
+]]></content></item><item><title>Design Patterns - Singleton</title><link>https://baris.io/posts/singleton/</link><pubDate>Mon, 19 Apr 2021 23:49:53 +0200</pubDate><guid>https://baris.io/posts/singleton/</guid><description>Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it.
+If we want to have only a single instance of a class and it must be accessible from a well-defined access point we can use singletons. In recent years singletons are seen as bad practice but they are still one of the most well-known design patterns. They are used in logging, caching, hardware interfaces, and configuration/properties files.</description><content type="html"><![CDATA[<p>Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it.</p>
+<p>If we want to have only a single instance of a class and it must be accessible from a well-defined access point we can use singletons. In recent years singletons are seen as <a href="https://stackoverflow.com/questions/137975/what-is-so-bad-about-singletons">bad practice</a> but they are still one of the most well-known design patterns. They are used in logging, caching, hardware interfaces, and configuration/properties files. Singletons are pretty easy(deceptively) to implement.</p>
+<p>For a basic implementation, we need:</p>
+<ul>
+<li>a private constructor to restrict new instance creation</li>
+<li>a static member of singleton type</li>
+<li>a static public getInstance method to give access to this instance</li>
+</ul>
+<h2 id="basic-implementation">Basic Implementation</h2>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MySingleton</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MySingleton</span> <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MySingleton</span><span class="o">();</span>
+
+    <span class="kd">private</span> <span class="nf">MySingleton</span><span class="o">(){}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">MySingleton</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doStuff</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">//some work here
+</span><span class="c1"></span>    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>Although this is usable, we generally want to lazily initialize our singleton instance because if we have a lot of singleton classes and if all of them are eagerly loaded, the startup of our application will be affected.</p>
+<h2 id="lazy-loading">Lazy Loading</h2>
+<p>So we can naively change it to something like this.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MySingleton</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MySingleton</span> <span class="n">instance</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">MySingleton</span><span class="o">(){}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">MySingleton</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">instance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MySingleton</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doStuff</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">//some work here
+</span><span class="c1"></span>    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>This is a little bit better but we have new problems now because this implementation is not threadsafe. Also, other people can use reflection to bypass our restriction on the constructor.</p>
+<h2 id="thread-safety">Thread-Safety</h2>
+<p>We should make the instance variable <em>volatile</em> to give it visibility across threads and make the instantiation synchronized.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MySingleton</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">MySingleton</span> <span class="n">instance</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">MySingleton</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">instance</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="n">IllegalStateException</span><span class="o">(</span><span class="s">&#34;Already instantiated&#34;</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">MySingleton</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">instance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kd">synchronized</span><span class="o">(</span><span class="n">MySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span><span class="o">(</span><span class="n">instance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">){</span>
+                    <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MySingleton</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doStuff</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">//some work here
+</span><span class="c1"></span>    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>We compare the instance with null twice, the first one is to not block reads to the instance if it is already initialized. If we made the getInstance method synchronized, it would also work but with much worse performance.</p>
+<h2 id="enum-singletons">Enum Singletons</h2>
+<p>Even though it looks like a weird trick, using <a href="https://stackoverflow.com/a/71399">enums</a> is widely accepted as one of the best ways to implement singletons. We solve the problems with thread-safety, reflection, and lazy loading. I did not write about them here but using Enums solve problems with cloning and serialization as well.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">enum</span> <span class="n">MySingleton</span> <span class="o">{</span>
+    <span class="n">INSTANCE</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doStuff</span><span class="o">()</span> <span class="o">{</span>
+        <span class="c1">//some work here
+</span><span class="c1"></span>    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div><p>We should consider these before using singletons:</p>
+<ul>
+<li>They violate the <a href="https://en.wikipedia.org/wiki/Single_responsibility_principle">SRP</a> since they control their lifecycle and behavior</li>
+<li>They cause the code to be <a href="https://stackoverflow.com/q/2832017">tightly coupled</a></li>
+<li>They make testing <a href="https://stackoverflow.com/a/2085988">harder</a></li>
+<li>If we are not careful they are not thread-safe</li>
+</ul>
+<p>Spring beans have singleton scope by default but they are not exactly the same concept. Java Singletons are scoped by the Java class loader, Spring singletons on the other hand can be any class we have written but spring will only create one instance for that class in that container context.</p>
+]]></content></item><item><title>Design Patterns - Builder</title><link>https://baris.io/posts/builder/</link><pubDate>Mon, 19 Apr 2021 23:48:35 +0200</pubDate><guid>https://baris.io/posts/builder/</guid><description>The builder pattern allows us to write readable and understandable code to build complex objects. It is generally used to handle the construction of objects that contain a lot of parameters. They are usually implemented as static inner classes. StringBuilder is a good example that is used a lot.
+But first, let&amp;rsquo;s talk about the alternatives first.
+Telescoping constructors In this pattern, we have multiple constructors to support multiple combinations of parameters to create an instance.</description><content type="html"><![CDATA[<p>The builder pattern allows us to write readable and understandable code to build complex objects. It is generally used to handle the construction of objects that contain a lot of parameters. They are usually implemented as static inner classes. StringBuilder is a good example that is used a lot.</p>
+<p>But first, let&rsquo;s talk about the alternatives first.</p>
+<h2 id="telescoping-constructors">Telescoping constructors</h2>
+<p>In this pattern, we have multiple constructors to support multiple combinations of parameters to create an instance.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Movie</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">director</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">producer</span><span class="o">;</span>
+
+  <span class="n">Movie</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="n">Movie</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="n">Movie</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">title</span><span class="o">,</span> <span class="n">String</span> <span class="n">producer</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">producer</span> <span class="o">=</span> <span class="n">producer</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="n">Movie</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">,</span> <span class="n">String</span> <span class="n">title</span><span class="o">,</span> <span class="n">String</span> <span class="n">producer</span><span class="o">,</span> <span class="n">String</span> <span class="n">director</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">producer</span> <span class="o">=</span> <span class="n">producer</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">director</span> <span class="o">=</span> <span class="n">director</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTitle</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">title</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDirector</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">director</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getProducer</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">producer</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>This is pretty straightforward but not very useful as the number of fields increases. We create immutable objects with this approach but there are some problems with this approach.</p>
+<ul>
+<li>We need to write a lot of constructors to support all parameter combinations.</li>
+<li>What if we wanted to create a movie with a director but without a producer? This becomes more of a problem if parameters have the same type.</li>
+</ul>
+<h2 id="exposed-setters">Exposed setters</h2>
+<p>Another way to deal with this problem is by exposing setters for every field we have.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Movie</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">director</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">producer</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTitle</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">title</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDirector</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">director</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getProducer</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">producer</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setId</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setTitle</span><span class="o">(</span><span class="n">String</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setDirector</span><span class="o">(</span><span class="n">String</span> <span class="n">director</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">director</span> <span class="o">=</span> <span class="n">director</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setProducer</span><span class="o">(</span><span class="n">String</span> <span class="n">producer</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">producer</span> <span class="o">=</span> <span class="n">producer</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>This is probably the most used and simplest pattern since we can easily auto-generate setter and getter methods. But there are some problems with this approach as well</p>
+<ul>
+<li>Exposing setters break immutability so it is not a good idea for <a href="http://www.yegor256.com/2014/06/09/objects-should-be-immutable.html">various reasons</a></li>
+<li>This class doesn&rsquo;t signify which of these setters must be used to create a valid object. So we can create an instance in an invalid state.</li>
+</ul>
+<h2 id="builder">Builder</h2>
+<p>A simple implementation for the builder pattern for the movie class would look like this</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Movie</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">director</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">producer</span><span class="o">;</span>
+
+  <span class="kd">private</span> <span class="nf">Movie</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">id</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">title</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">director</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">director</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">producer</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">producer</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTitle</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">title</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDirector</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">director</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getProducer</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">producer</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">title</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">director</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">producer</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Builder</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">Validate</span><span class="o">.</span><span class="na">notBlank</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setTitle</span><span class="o">(</span><span class="n">String</span> <span class="n">title</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">title</span> <span class="o">=</span> <span class="n">title</span><span class="o">;</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setDirector</span><span class="o">(</span><span class="n">String</span> <span class="n">director</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">director</span> <span class="o">=</span> <span class="n">director</span><span class="o">;</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setProducer</span><span class="o">(</span><span class="n">String</span> <span class="n">producer</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">producer</span> <span class="o">=</span> <span class="n">producer</span><span class="o">;</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Movie</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="n">Movie</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><ul>
+<li>If we want to make sure some fields are set, we can get them in the builder constructor or we can throw exceptions in the build method or somewhere else by validating them.</li>
+<li>They are very easy to implement</li>
+<li>They have very few drawbacks</li>
+<li>A class with 4 parameters is not hard to build but when you have 9 parameters and 4 of them must not be null, this becomes much more helpful.</li>
+<li>Even though they are generally used as inner static classes we can add a builder to legacy code pretty easily as a separate class</li>
+</ul>
+<p>Using generics makes really efficient constructors even for multiple layers of child-parent hierarchies. Let&rsquo;s have a look at a builder for User and Project which extends CompanyEntity and BaseEntity classes.</p>
+<h3 id="baseentity">BaseEntity</h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">BaseEntity</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kt">long</span> <span class="n">createdAt</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="kt">long</span> <span class="n">updatedAt</span><span class="o">;</span>
+
+  <span class="n">BaseEntity</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Validate</span><span class="o">.</span><span class="na">notBlank</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">id</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">createdAt</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">createdAt</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">updatedAt</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">updatedAt</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">long</span> <span class="nf">getCreatedAt</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">createdAt</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">long</span> <span class="nf">getUpdatedAt</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">updatedAt</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kd">static</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Builder</span><span class="o">&lt;</span><span class="n">T</span> <span class="kd">extends</span> <span class="n">BaseEntity</span><span class="o">,</span> <span class="n">B</span> <span class="kd">extends</span> <span class="n">Builder</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">long</span> <span class="n">createdAt</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">long</span> <span class="n">updatedAt</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="n">B</span> <span class="nf">setId</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+      <span class="k">return</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">B</span> <span class="nf">setCreatedAt</span><span class="o">(</span><span class="kt">long</span> <span class="n">createdAt</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">createdAt</span> <span class="o">=</span> <span class="n">createdAt</span><span class="o">;</span>
+      <span class="k">return</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">B</span> <span class="nf">setUpdatedAt</span><span class="o">(</span><span class="kt">long</span> <span class="n">updatedAt</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">updatedAt</span> <span class="o">=</span> <span class="n">updatedAt</span><span class="o">;</span>
+      <span class="k">return</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">abstract</span> <span class="n">T</span> <span class="nf">build</span><span class="o">();</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><h3 id="companyentity">CompanyEntity</h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">CompanyEntity</span> <span class="kd">extends</span> <span class="n">BaseEntity</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">companyId</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">companyName</span><span class="o">;</span>
+
+  <span class="n">CompanyEntity</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="n">builder</span><span class="o">);</span>
+    <span class="n">Validate</span><span class="o">.</span><span class="na">notBlank</span><span class="o">(</span><span class="n">companyId</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">companyId</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">companyId</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">companyName</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">companyName</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getCompanyId</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">companyId</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getCompanyName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">companyName</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">protected</span> <span class="kd">static</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">Builder</span><span class="o">&lt;</span><span class="n">T</span> <span class="kd">extends</span> <span class="n">CompanyEntity</span><span class="o">,</span> <span class="n">B</span> <span class="kd">extends</span> <span class="n">CompanyEntity</span><span class="o">.</span><span class="na">Builder</span><span class="o">&gt;</span> <span class="kd">extends</span>
+      <span class="n">BaseEntity</span><span class="o">.</span><span class="na">Builder</span><span class="o">&lt;</span><span class="n">T</span><span class="o">,</span> <span class="n">B</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">companyId</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">companyName</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="n">B</span> <span class="nf">setCompanyId</span><span class="o">(</span><span class="n">String</span> <span class="n">companyId</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">companyId</span> <span class="o">=</span> <span class="n">companyId</span><span class="o">;</span>
+      <span class="k">return</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">B</span> <span class="nf">setCompanyName</span><span class="o">(</span><span class="n">String</span> <span class="n">companyName</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">companyName</span> <span class="o">=</span> <span class="n">companyName</span><span class="o">;</span>
+      <span class="k">return</span> <span class="o">(</span><span class="n">B</span><span class="o">)</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><h3 id="user">User</h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">extends</span> <span class="n">CompanyEntity</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">username</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
+
+  <span class="n">User</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="n">builder</span><span class="o">);</span>
+    <span class="n">Validate</span><span class="o">.</span><span class="na">notBlank</span><span class="o">(</span><span class="n">username</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">username</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">username</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">firstName</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">firstName</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">lastName</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">lastName</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getUsername</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">username</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getFirstName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">firstName</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getLastName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">lastName</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="kd">extends</span> <span class="n">CompanyEntity</span><span class="o">.</span><span class="na">Builder</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">User</span><span class="o">.</span><span class="na">Builder</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">username</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">firstName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">lastName</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setUsername</span><span class="o">(</span><span class="n">String</span> <span class="n">username</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">username</span> <span class="o">=</span> <span class="n">username</span><span class="o">;</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setFirstName</span><span class="o">(</span><span class="n">String</span> <span class="n">firstName</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">firstName</span> <span class="o">=</span> <span class="n">firstName</span><span class="o">;</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setLastName</span><span class="o">(</span><span class="n">String</span> <span class="n">lastName</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">lastName</span> <span class="o">=</span> <span class="n">lastName</span><span class="o">;</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">User</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="n">User</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><h3 id="project">Project</h3>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Project</span> <span class="kd">extends</span> <span class="n">CompanyEntity</span> <span class="o">{</span>
+
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="n">String</span> <span class="n">projectDepartment</span><span class="o">;</span>
+
+  <span class="n">Project</span><span class="o">(</span><span class="n">Builder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="n">builder</span><span class="o">);</span>
+    <span class="n">Validate</span><span class="o">.</span><span class="na">notBlank</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">name</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">projectDepartment</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">projectDepartment</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getProjectDepartment</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">projectDepartment</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">Builder</span> <span class="kd">extends</span> <span class="n">CompanyEntity</span><span class="o">.</span><span class="na">Builder</span><span class="o">&lt;</span><span class="n">Project</span><span class="o">,</span> <span class="n">Project</span><span class="o">.</span><span class="na">Builder</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">projectDepartment</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Builder</span> <span class="nf">setProjectDepartment</span><span class="o">(</span><span class="n">String</span> <span class="n">projectDepartment</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">projectDepartment</span> <span class="o">=</span> <span class="n">projectDepartment</span><span class="o">;</span>
+      <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Project</span> <span class="nf">build</span><span class="o">()</span> <span class="o">{</span>
+      <span class="k">return</span> <span class="k">new</span> <span class="n">Project</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div><p>We can use our builders just like below</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java">    <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="n">User</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">setCompanyId</span><span class="o">(</span><span class="s">&#34;OpsGenie&#34;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">UUID</span><span class="o">.</span><span class="na">randomUUID</span><span class="o">().</span><span class="na">toString</span><span class="o">())</span>
+        <span class="o">.</span><span class="na">setFirstName</span><span class="o">(</span><span class="s">&#34;asd&#34;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+
+    <span class="n">Project</span> <span class="n">project</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Project</span><span class="o">.</span><span class="na">Builder</span><span class="o">()</span>
+        <span class="o">.</span><span class="na">setCompanyId</span><span class="o">(</span><span class="s">&#34;OpsGenie&#34;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">setId</span><span class="o">(</span><span class="n">UUID</span><span class="o">.</span><span class="na">randomUUID</span><span class="o">().</span><span class="na">toString</span><span class="o">())</span>
+        <span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">&#34;thundra&#34;</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</code></pre></div><p>The reason for using two different generics on our Builder classes are;</p>
+<ul>
+<li>The first one is used in the build method and it returns the type of the child class.</li>
+<li>The second one is used as the return value of our setter methods in the builder. Without it, our setId method would return a BaseEntity.Builder and we couldn&rsquo;t set the child class fields after that.</li>
+</ul>
+]]></content></item></channel></rss>
