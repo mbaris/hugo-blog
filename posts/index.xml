@@ -28,8 +28,8 @@ We have to assume things can and will break when we do not expect. So we have to
 <h2 id="future">Future</h2>
 <p>With successful projects like OpenTelemetry(previously OpenTracing and OpenCensus) and OpenMetrics there is a lot of discussion and standardization taking place in this area. It is an exciting field with lots of things to learn so I hope to learn and write more about this.</p>
 ]]></content></item><item><title>Design Patterns - Singleton</title><link>https://baris.io/posts/singleton/</link><pubDate>Mon, 19 Apr 2021 23:49:53 +0200</pubDate><guid>https://baris.io/posts/singleton/</guid><description>Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it.
-If we want to have only a single instance of a class and it must be accessible from a well-defined access point we can use singletons. In recent years singletons are seen as bad practice but they are still one of the most well-known design patterns. They are used in logging, caching, hardware interfaces, and configuration/properties files.</description><content type="html"><![CDATA[<p>Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it.</p>
-<p>If we want to have only a single instance of a class and it must be accessible from a well-defined access point we can use singletons. In recent years singletons are seen as <a href="https://stackoverflow.com/questions/137975/what-is-so-bad-about-singletons">bad practice</a> but they are still one of the most well-known design patterns. They are used in logging, caching, hardware interfaces, and configuration/properties files. Singletons are pretty easy(deceptively) to implement.</p>
+If we want to have only a single instance of a class, and it must be accessible from a well-defined access point we can use singletons. In recent years singletons are seen as bad practice but they are still one of the most well-known design patterns. They are used in logging, caching, hardware interfaces, and configuration/properties files.</description><content type="html"><![CDATA[<p>Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it.</p>
+<p>If we want to have only a single instance of a class, and it must be accessible from a well-defined access point we can use singletons. In recent years singletons are seen as <a href="https://stackoverflow.com/questions/137975/what-is-so-bad-about-singletons">bad practice</a> but they are still one of the most well-known design patterns. They are used in logging, caching, hardware interfaces, and configuration/properties files. Singletons are pretty easy(deceptively) to implement.</p>
 <p>For a basic implementation, we need:</p>
 <ul>
 <li>a private constructor to restrict new instance creation</li>
@@ -114,10 +114,12 @@ If we want to have only a single instance of a class and it must be accessible f
 <li>They make testing <a href="https://stackoverflow.com/a/2085988">harder</a></li>
 <li>If we are not careful they are not thread-safe</li>
 </ul>
-<p>Spring beans have singleton scope by default but they are not exactly the same concept. Java Singletons are scoped by the Java class loader, Spring singletons on the other hand can be any class we have written but spring will only create one instance for that class in that container context.</p>
+<p>Spring beans have singleton scope by default, but they are not exactly the same concept. Java Singletons are scoped by the Java class loader, Spring singletons on the other hand can be any class we have written but spring will only create one instance for that class in that container context.</p>
 ]]></content></item><item><title>Design Patterns - Builder</title><link>https://baris.io/posts/builder/</link><pubDate>Mon, 19 Apr 2021 23:48:35 +0200</pubDate><guid>https://baris.io/posts/builder/</guid><description>The builder pattern allows us to write readable and understandable code to build complex objects. It is generally used to handle the construction of objects that contain a lot of parameters. They are usually implemented as static inner classes. StringBuilder is a good example that is used a lot.
 But first, let&amp;rsquo;s talk about the alternatives first.
-Telescoping constructors In this pattern, we have multiple constructors to support multiple combinations of parameters to create an instance.</description><content type="html"><![CDATA[<p>The builder pattern allows us to write readable and understandable code to build complex objects. It is generally used to handle the construction of objects that contain a lot of parameters. They are usually implemented as static inner classes. StringBuilder is a good example that is used a lot.</p>
+Telescoping constructors In this pattern, we have multiple constructors to support multiple combinations of parameters to create an instance.</description><content type="html"><![CDATA[<p>The builder pattern allows us to write readable and understandable code to build complex objects.
+It is generally used to handle the construction of objects that contain a lot of parameters.
+They are usually implemented as static inner classes. StringBuilder is a good example that is used a lot.</p>
 <p>But first, let&rsquo;s talk about the alternatives first.</p>
 <h2 id="telescoping-constructors">Telescoping constructors</h2>
 <p>In this pattern, we have multiple constructors to support multiple combinations of parameters to create an instance.</p>
@@ -166,7 +168,8 @@ Telescoping constructors In this pattern, we have multiple constructors to suppo
     <span class="k">return</span> <span class="n">producer</span><span class="o">;</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div><p>This is pretty straightforward but not very useful as the number of fields increases. We create immutable objects with this approach but there are some problems with this approach.</p>
+</code></pre></div><p>This is pretty straightforward but not very useful as the number of fields increases.
+We create immutable objects with this approach but there are some problems with this approach.</p>
 <ul>
 <li>We need to write a lot of constructors to support all parameter combinations.</li>
 <li>What if we wanted to create a movie with a director but without a producer? This becomes more of a problem if parameters have the same type.</li>
@@ -212,9 +215,10 @@ Telescoping constructors In this pattern, we have multiple constructors to suppo
     <span class="k">this</span><span class="o">.</span><span class="na">producer</span> <span class="o">=</span> <span class="n">producer</span><span class="o">;</span>
   <span class="o">}</span>
 <span class="o">}</span>
-</code></pre></div><p>This is probably the most used and simplest pattern since we can easily auto-generate setter and getter methods. But there are some problems with this approach as well</p>
+</code></pre></div><p>This is probably the most used and simplest pattern since we can easily auto-generate setter and getter methods.
+There are some problems with this approach as well</p>
 <ul>
-<li>Exposing setters break immutability so it is not a good idea for <a href="http://www.yegor256.com/2014/06/09/objects-should-be-immutable.html">various reasons</a></li>
+<li>Exposing setters break immutability, so it is not a good idea for <a href="http://www.yegor256.com/2014/06/09/objects-should-be-immutable.html">various reasons</a></li>
 <li>This class doesn&rsquo;t signify which of these setters must be used to create a valid object. So we can create an instance in an invalid state.</li>
 </ul>
 <h2 id="builder">Builder</h2>
@@ -282,7 +286,7 @@ Telescoping constructors In this pattern, we have multiple constructors to suppo
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div><ul>
-<li>If we want to make sure some fields are set, we can get them in the builder constructor or we can throw exceptions in the build method or somewhere else by validating them.</li>
+<li>If we want to make sure some fields are set, we can get them in the builder, constructor, or we can throw exceptions in the build method or somewhere else by validating them.</li>
 <li>They are very easy to implement</li>
 <li>They have very few drawbacks</li>
 <li>A class with 4 parameters is not hard to build but when you have 9 parameters and 4 of them must not be null, this becomes much more helpful.</li>
@@ -487,7 +491,8 @@ Telescoping constructors In this pattern, we have multiple constructors to suppo
         <span class="o">.</span><span class="na">build</span><span class="o">();</span>
 </code></pre></div><p>The reason for using two different generics on our Builder classes are;</p>
 <ul>
-<li>The first one is used in the build method and it returns the type of the child class.</li>
-<li>The second one is used as the return value of our setter methods in the builder. Without it, our setId method would return a BaseEntity.Builder and we couldn&rsquo;t set the child class fields after that.</li>
+<li>The first one is used in the build method, and it returns the type of the child class.</li>
+<li>The second one is used as the return value of our setter methods in the builder.
+Without it, our setId method would return a BaseEntity.Builder and we couldn&rsquo;t set the child class fields after that.</li>
 </ul>
 ]]></content></item></channel></rss>
