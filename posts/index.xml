@@ -1,4 +1,75 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 19 Apr 2021 23:50:25 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Observability 101</title><link>https://baris.io/posts/observability/</link><pubDate>Mon, 19 Apr 2021 23:50:25 +0200</pubDate><guid>https://baris.io/posts/observability/</guid><description>Systems we build and maintain are becoming more complex and abstract with the increase in popularity of distributed systems, microservices, and cloud providers. With these new concepts, our view of failures has changed as well.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 25 Apr 2021 00:02:25 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Infrastructure as Code</title><link>https://baris.io/posts/infrastructure-as-code/</link><pubDate>Sun, 25 Apr 2021 00:02:25 +0200</pubDate><guid>https://baris.io/posts/infrastructure-as-code/</guid><description>Infrastructure as Code is the practice of managing and provisioning resources through version controlled definition files.
+Things to note beforehand
+Cloud providers like AWS, Azure and GCP allow us to provision new resources in mere minutes or even seconds. Multiple deployments to production every day is not an exceptional thing anymore We want to use a similar infrastructure for multiple environments(dev,staging,prod etc.) and regions Infrastructure on cloud does not only mean hosting applications on a virtual machine It also includes services we can use like data stores, queues/topics, network components, access rights/permission models and much more Utilizing these resources efficiently will help us move forward much faster What problem does it solve?</description><content type="html"><![CDATA[<p><em>Infrastructure as Code</em> is the practice of managing and provisioning resources through version controlled definition files.</p>
+<p>Things to note beforehand</p>
+<ul>
+<li>Cloud providers like AWS, Azure and GCP allow us to provision new resources in mere minutes or even seconds.</li>
+<li>Multiple deployments to production every day is not an exceptional thing anymore</li>
+<li>We want to use a similar infrastructure for multiple environments(dev,staging,prod etc.) and regions</li>
+<li>Infrastructure on cloud does not only mean hosting applications on a virtual machine
+It also includes services we can use like data stores, queues/topics, network components, access rights/permission models and much more</li>
+<li>Utilizing these resources efficiently will help us move forward much faster</li>
+</ul>
+<h2 id="what-problem-does-it-solve">What problem does it solve?</h2>
+<p>While cloud computing provides us an easy and fast way to get access to new resources, we still have to create, keep an inventory of and decommission them when necessary.
+In a traditional on-premise setup, we would document and apply all the steps manually when we need to install and run services on these servers.
+However, this approach does not scale well if we want to get the full benefits of using cloud providers.
+Because development and maintenance of an application on cloud can easily require hundreds of resources across different accounts.
+So we definitely need some kind of proper automation.</p>
+<h2 id="how-does-it-work">How does it work?</h2>
+<ul>
+<li>Create configuration files or scripts defining required resources, and their relations with each other.
+These can be written in bash or domain specific languages like <a href="https://www.terraform.io">Terraform/HCL</a> or <a href="https://aws.amazon.com/cloudformation/resources/templates/">Cloudformation Templates</a></li>
+<li>Store them in a version control system like git. This can be done in two ways and both has their advantages/disadvantages.
+<ul>
+<li>Along with the service using these resources</li>
+<li>In a centralized repository which contains all resources used by the company</li>
+</ul>
+</li>
+<li>Integrate these tools/scripts to our CI/CD pipeline</li>
+<li>Applying the same configuration should always give the same result regardless of the state of the infrastructure when we started.
+This is a broader concept called <a href="https://en.wikipedia.org/wiki/Idempotence">Idempotency</a> and it is a really important in IaC</li>
+</ul>
+<h3 id="imperative-vs-declarative">Imperative vs Declarative</h3>
+<p>It is important to note that Infrastructure as Code can be implemented with both approaches effectively.</p>
+<p>Using an imperative approach to create an AWS Lambda function would look like below</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">aws lambda create-function <span class="se">\
+</span><span class="se"></span>    --function-name my-function <span class="se">\
+</span><span class="se"></span>    --runtime nodejs12.x <span class="se">\
+</span><span class="se"></span>    --zip-file fileb://my-function.zip <span class="se">\
+</span><span class="se"></span>    --handler exports.test <span class="se">\
+</span><span class="se"></span>    --role arn:aws:iam::123456789012:role/service-role/iam_for_lambda
+</code></pre></div><p>While with a declarative approach, it would look like this.</p>
+<div class="highlight"><pre class="chroma"><code class="language-HCL" data-lang="HCL"><span class="k">resource</span> <span class="s2">&#34;aws_lambda_function&#34; &#34;my-function&#34;</span> {
+<span class="n">  filename</span>      <span class="o">=</span> <span class="s2">&#34;lambda_function_payload.zip&#34;</span>
+<span class="n">  function_name</span> <span class="o">=</span> <span class="s2">&#34;lambda_function_name&#34;</span>
+<span class="n">  role</span>          <span class="o">=</span> <span class="k">aws_iam_role</span><span class="p">.</span><span class="k">iam_for_lambda</span><span class="p">.</span><span class="k">arn</span>
+<span class="n">  handler</span>       <span class="o">=</span> <span class="s2">&#34;exports.test&#34;</span>
+<span class="n">  source_code_hash</span> <span class="o">=</span> <span class="k">filebase64sha256</span><span class="p">(</span><span class="s2">&#34;my-function.zip&#34;</span><span class="p">)</span>
+<span class="n">  runtime</span> <span class="o">=</span> <span class="s2">&#34;nodejs12.x&#34;</span>
+}
+</code></pre></div><h2 id="why-should-we-use-it">Why should we use it?</h2>
+<h3 id="consistency">Consistency</h3>
+<p>Even if we are really careful, any manual process involving humans is error prone.
+Getting the same result every time you need a new environment prevents so many problems like having different configurations
+for test and prod environments or wasting time on errors due to misconfigurations</p>
+<h3 id="speed">Speed</h3>
+<p>If we properly integrate infrastructure as code to our build pipelines, our resource provisioning can be completely automated.
+Not spending time on creating resources means more time efficient development and deployment processes.</p>
+<h3 id="accountability">Accountability</h3>
+<p>We already have best practices regarding source control. With peer reviews and pull requests, any change in the infrastructure is visible and obvious
+We can track down what changed with which deployment and also revert to a previous version easily if we need to.</p>
+<h3 id="scalability">Scalability</h3>
+<p>We might need to deploy our services to completely new regions to expand or new environments for reasons like development, tests or demos.
+With infrastructure as code, we are not bound to number of people who can create infrastructure and manage them for our team.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>My first experience with IaC was an in-house tool made by engineers in the company, and it saved so much time and effort when we were developing Opsgenie.
+I can&rsquo;t imagine how difficult and stressful deployments would be if we were manually creating database tables, iam policies and queues every other day.</p>
+<p>More recently, I have been using Terraform at work and what you can build with it is impressive. Especially since there are so many modules available to use.
+I will take a look at <a href="https://registry.terraform.io/providers/hashicorp/aws/latest/docs/guides/custom-service-endpoints#localstack">creating infrastructure with</a> <a href="https://github.com/localstack/localstack">localstack</a> on a personal project soon</p>
+<p>There is obviously a learning curve for everyone involved, but it is certainly worth the effort.<br>
+In my opinion, this is one thing every software company should spend some time on.</p>
+]]></content></item><item><title>Observability 101</title><link>https://baris.io/posts/observability/</link><pubDate>Mon, 19 Apr 2021 23:50:25 +0200</pubDate><guid>https://baris.io/posts/observability/</guid><description>Systems we build and maintain are becoming more complex and abstract with the increase in popularity of distributed systems, microservices, and cloud providers. With these new concepts, our view of failures has changed as well.
 We have to assume things can and will break when we do not expect. So we have to make sure it is possible to understand what is happening in our services it any given time</description><content type="html"><![CDATA[<p>Systems we build and maintain are becoming more complex and abstract with the increase in popularity of distributed systems, microservices, and cloud providers. With these new concepts, our view of failures has changed as well.</p>
 <p>We have to assume things can and will break when we do not expect. So we have to make sure it is possible to understand what is happening in our services it any given time</p>
 <h2 id="observability">Observability</h2>
