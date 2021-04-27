@@ -24,11 +24,11 @@ get.</p>
 <li>Helps IDEs and static analyzers reason about your code. They can analyze it much more accurately with types</li>
 <li>Helps documentation</li>
 </ul>
-<h3 id="where-to-use-them">Where to Use Them</h3>
+<h3 id="where-to-use-them">Where to Use Them?</h3>
 <p>In my opinion, If multiple people are working on a python codebase, it can be a great asset to the team because it makes
-the code easier understand for everyone involved It adds a development time overhead so might not be needed in throwaway
-one-time scripts, although we can still see the benefit of type safety especially if it is a critical task.</p>
-<h3 id="example">Example</h3>
+the code easier understand for everyone involved</p>
+<p>It adds a development time overhead so might not be needed in throwaway one-time scripts, although we can still see the
+benefit of type safety especially if it is a critical task.</p>
 <div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">evaluate_users</span><span class="p">(</span><span class="n">user_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
     <span class="n">user_details</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">user_ids</span><span class="p">:</span>
