@@ -1,4 +1,53 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 25 Apr 2021 00:02:25 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Infrastructure as Code</title><link>https://baris.io/posts/infrastructure-as-code/</link><pubDate>Sun, 25 Apr 2021 00:02:25 +0200</pubDate><guid>https://baris.io/posts/infrastructure-as-code/</guid><description>Infrastructure as Code is the practice of managing and provisioning resources through version controlled definition files.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 27 Apr 2021 00:28:43 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Python Type Hints</title><link>https://baris.io/posts/python-typing/</link><pubDate>Tue, 27 Apr 2021 00:28:43 +0200</pubDate><guid>https://baris.io/posts/python-typing/</guid><description>The programming language I feel the most proficient and effective in is definitely Java, so I feel more at home with statically typed languages. Even though I really like Java and Spring Boot for large-scale web applications, Python is my go-to language for one-time-scripts, smaller apps and especially aws lambda functions
+I&amp;rsquo;ve been writing a lot more python recently, and I really liked a library called typing. typing is a standard library module which provides a runtime to support type hints.</description><content type="html"><![CDATA[<p>The programming language I feel the most proficient and effective in is definitely Java, so I feel more at home with
+statically typed languages. Even though I really like Java and <a href="https://spring.io/projects/spring-boot">Spring Boot</a> for
+large-scale web applications, Python is my go-to language for one-time-scripts, smaller apps and
+especially <a href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-python.html">aws lambda functions</a></p>
+<p>I&rsquo;ve been writing a lot more python recently, and I really liked a library called typing.
+<em>typing</em> is a standard library module which provides a runtime to support type hints.</p>
+<h3 id="type-hints">Type Hints</h3>
+<p><em>type hinting</em> in this context means providing the types for parameters and returned objects.<br>
+This is a simple example that we can see in the <a href="https://docs.python.org/3/library/typing.html">docs</a></p>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">greeting</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="s1">&#39;Hello &#39;</span> <span class="o">+</span> <span class="n">name</span>
+</code></pre></div><ul>
+<li>a parameter <em>name</em> with the type of string</li>
+<li>returned object of type string</li>
+</ul>
+<p>Apart from str, we can use types like List, Set, Dict or Tuple.</p>
+<h3 id="static-type-checking">Static Type Checking?</h3>
+<p>It is important to note that Python runtime does not enforce anything regarding these types. They are just &ldquo;hints&rdquo;
+You might be wondering about the usefulness of this library if there is no enforcement but there are many benefits we
+get.</p>
+<ul>
+<li>Dramatically reduces the number of TypeErrors you get.</li>
+<li>Helps IDEs and static analyzers reason about your code. They can analyze it much more accurately with types</li>
+<li>Helps documentation</li>
+</ul>
+<h3 id="where-to-use-them">Where to Use Them</h3>
+<p>In my opinion, If multiple people are working on a python codebase, it can be a great asset to the team because it makes
+the code easier understand for everyone involved It adds a development time overhead so might not be needed in throwaway
+one-time scripts, although we can still see the benefit of type safety especially if it is a critical task.</p>
+<h3 id="example">Example</h3>
+<div class="highlight"><pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">evaluate_users</span><span class="p">(</span><span class="n">user_ids</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]:</span>
+    <span class="n">user_details</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">user_ids</span><span class="p">:</span>
+        <span class="n">user_details</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_random_user_details</span><span class="p">(</span><span class="nb">id</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">user_details</span>
+
+
+<span class="k">def</span> <span class="nf">get_random_user_details</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">age</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">99</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&#34;id&#34;</span><span class="p">:</span> <span class="n">user_id</span><span class="p">,</span> <span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span> <span class="s2">&#34;age&#34;</span><span class="p">:</span> <span class="n">age</span><span class="p">}</span>
+
+</code></pre></div><p>If the expected type for user_id was an int instead of str, I would see a warning like this in IDEA,
+<img src="/images/typing/ide-warning.png" alt="IDE warning"></p>
+<p>Similarly, if the return does not match the expected one, the warning would look like this.
+<img src="/images/typing/return-type.png" alt="IDE warning"></p>
+<p>There are other benefits of this library, but I think parameter and return types are enough to consider using it</p>
+]]></content></item><item><title>Infrastructure as Code</title><link>https://baris.io/posts/infrastructure-as-code/</link><pubDate>Sun, 25 Apr 2021 00:02:25 +0200</pubDate><guid>https://baris.io/posts/infrastructure-as-code/</guid><description>Infrastructure as Code is the practice of managing and provisioning resources through version controlled definition files.
 Things to note beforehand
 Cloud providers like AWS, Azure and GCP allow us to provision new resources in mere minutes or even seconds. Multiple deployments to production every day is not an exceptional thing anymore We want to use a similar infrastructure for multiple environments(dev,staging,prod etc.) and regions Infrastructure on cloud does not only mean hosting applications on a virtual machine It also includes services we can use like data stores, queues/topics, network components, access rights/permission models and much more Utilizing these resources efficiently will help us move forward much faster What problem does it solve?</description><content type="html"><![CDATA[<p><em>Infrastructure as Code</em> is the practice of managing and provisioning resources through version controlled definition files.</p>
 <p>Things to note beforehand</p>
