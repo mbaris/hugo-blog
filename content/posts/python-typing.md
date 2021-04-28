@@ -2,7 +2,7 @@
 title: "Python Type Hints"
 date: 2021-04-27T00:28:43+02:00
 draft: false
-description: "_typing_ is a standard library module which provides a runtime to support type hints"
+description: "typing is a standard library module which provides a runtime to support type hints"
 tags: ["programming", "python"]
 ---
 
