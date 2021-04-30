@@ -1,4 +1,49 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 27 Apr 2021 00:28:43 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Python Type Hints</title><link>https://baris.io/posts/python-typing/</link><pubDate>Tue, 27 Apr 2021 00:28:43 +0200</pubDate><guid>https://baris.io/posts/python-typing/</guid><description>The programming language I feel the most proficient and effective in is definitely Java, so I feel more at home with statically typed languages. Even though I really like Java and Spring Boot for large-scale web applications, Python is my go-to language for one-time-scripts, smaller apps and especially aws lambda functions
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 30 Apr 2021 16:00:00 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>2021 April Reading List</title><link>https://baris.io/posts/2021-april-reading-list/</link><pubDate>Fri, 30 Apr 2021 16:00:00 +0200</pubDate><guid>https://baris.io/posts/2021-april-reading-list/</guid><description>I will be sharing roughly grouped links to articles or videos I enjoyed during the month and this is the first one.
+Architecture Heroku style deployments
+build your own X
+Porto - a modern software architecture pattern
+GitOps recipe for progressive delivery
+Istio telemetry
+One Man SaaS one man SaaS architecture
+tools of the trade
+UML Diagrams has UML died without anyone noticing?
+why UML really died?
+Programming why is python so popular despite being so slow</description><content type="html"><![CDATA[<p>I will be sharing roughly grouped links to articles or videos I enjoyed during the month and this is the first one.</p>
+<h2 id="architecture">Architecture</h2>
+<p><a href="https://ricardoanderegg.com/posts/git-push-deployments-docker-tags/">Heroku style deployments</a></p>
+<p><a href="https://github.com/danistefanovic/build-your-own-x">build your own X</a></p>
+<p><a href="https://github.com/Mahmoudz/Porto">Porto - a modern software architecture pattern</a></p>
+<p><a href="https://dev.to/stefanprodan/a-gitops-recipe-for-progressive-delivery-2pa3">GitOps recipe for progressive delivery</a></p>
+<p><a href="https://blog.christianposta.com/understanding-istio-telemetry-v2/">Istio telemetry</a></p>
+<h3 id="one-man-saas">One Man SaaS</h3>
+<p><a href="https://anthonynsimon.com/blog/one-man-saas-architecture/">one man SaaS architecture</a></p>
+<p><a href="https://anthonynsimon.com/blog/tools-of-the-trade/">tools of the trade</a></p>
+<h3 id="uml-diagrams">UML Diagrams</h3>
+<p><a href="https://garba.org/posts/2021/uml/">has UML died without anyone noticing?</a></p>
+<p><a href="https://buttondown.email/hillelwayne/archive/why-uml-really-died/">why UML really died?</a></p>
+<h2 id="programming">Programming</h2>
+<p><a href="https://www.sethserver.com/python/why-is-python-so-slow.html">why is python so popular despite being so slow</a></p>
+<p><a href="https://hodovi.ch/blog/advanced-usage-python-requests-timeouts-retries-hooks/">advanced python requests</a></p>
+<p><a href="https://github.com/klen/py-frameworks-bench">python web framework benchmark</a></p>
+<p><a href="https://dev.to/lucasnevespereira/write-a-rest-api-in-golang-following-best-practices-pe9">REST API in golang</a></p>
+<p><a href="https://www.teamten.com/lawrence/writings/java-for-everything.html">Java for everything</a></p>
+<p><a href="https://www.matuzo.at/blog/html-boilerplate/">HTML boilerplate</a></p>
+<p><a href="https://changelog.com/posts/you-might-as-well-timestamp-it">you might as well timestamp it</a></p>
+<p><a href="https://blog.reverberate.org/2021/04/21/musttail-efficient-interpreters.html">parsing Protobuf at 2+GB/s</a></p>
+<p><a href="https://markodenic.com/use-google-like-a-pro/">intermediate google-fu</a></p>
+<h2 id="tech-drama">Tech Drama</h2>
+<h3 id="ci-and-cryptocurrency-miners">CI and Cryptocurrency Miners</h3>
+<p><a href="https://therecord.media/github-investigating-crypto-mining-campaign-abusing-its-server-infrastructure/">GitHub is investigating crypto-miners abusing its servers</a></p>
+<p><a href="https://layerci.com/blog/crypto-miners-are-killing-free-ci/">crypto-miners are killing free ci</a></p>
+<p><a href="https://drewdevault.com/2021/04/26/Cryptocurrency-is-a-disaster.html">cryptocurrency is a disaster</a></p>
+<p><a href="https://gregoryszorc.com/blog/2021/04/07/modern-ci-is-too-complex-and-misdirected/">modern CI is too complex and misdirected</a></p>
+<h3 id="basecamp---politics">Basecamp - Politics</h3>
+<p><a href="https://world.hey.com/jason/changes-at-basecamp-7f32afc5">changes at Basecamp</a></p>
+<p><a href="https://world.hey.com/dhh/basecamp-s-new-etiquette-regarding-societal-politics-at-work-b44bef69">Basecamp etiquette regarding societal politics at work</a></p>
+<h3 id="aws---opensearch">AWS - OpenSearch</h3>
+<p><a href="https://aws.amazon.com/blogs/opensource/introducing-opensearch/">AWS OpensSearch</a></p>
+<p><a href="https://www.elastic.co/what-is/opensearch">what is OpenSearch - by Elastic</a></p>
+]]></content></item><item><title>Python Type Hints</title><link>https://baris.io/posts/python-typing/</link><pubDate>Tue, 27 Apr 2021 00:28:43 +0200</pubDate><guid>https://baris.io/posts/python-typing/</guid><description>The programming language I feel the most proficient and effective in is definitely Java, so I feel more at home with statically typed languages. Even though I really like Java and Spring Boot for large-scale web applications, Python is my go-to language for one-time-scripts, smaller apps and especially aws lambda functions
 I&amp;rsquo;ve been writing a lot more python recently, and I really liked a library called typing. typing is a standard library module which provides a runtime to support type hints.</description><content type="html"><![CDATA[<p>The programming language I feel the most proficient and effective in is definitely Java, so I feel more at home with
 statically typed languages. Even though I really like Java and <a href="https://spring.io/projects/spring-boot">Spring Boot</a> for
 large-scale web applications, Python is my go-to language for one-time-scripts, smaller apps and
