@@ -7,6 +7,7 @@ tags: ["programming", "reading"]
 ---
 
 I will be sharing roughly grouped links to articles or videos I enjoyed during the month and this is the first one.
+
 ## Architecture
 [Heroku style deployments](https://ricardoanderegg.com/posts/git-push-deployments-docker-tags/)
 
