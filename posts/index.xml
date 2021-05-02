@@ -1,4 +1,103 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 30 Apr 2021 16:00:00 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>2021 April Reading List</title><link>https://baris.io/posts/2021-april-reading-list/</link><pubDate>Fri, 30 Apr 2021 16:00:00 +0200</pubDate><guid>https://baris.io/posts/2021-april-reading-list/</guid><description>I will be sharing roughly grouped links to articles or videos I enjoyed during the month and this is the first one.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 02 May 2021 00:00:36 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Anatomy of a Dockerfile</title><link>https://baris.io/posts/anatomy-of-a-dockerfile/</link><pubDate>Sun, 02 May 2021 00:00:36 +0200</pubDate><guid>https://baris.io/posts/anatomy-of-a-dockerfile/</guid><description>What is a Dockerfile? Dockerfile is a text document containing commands which can be run in sequence to assemble a docker image.
+A sample Dockerfile from the official docs looks like this
+# syntax=docker/dockerfile:1FROMnode:12-alpineRUN apk add --no-cache python g++ makeWORKDIR/appCOPY . .RUN yarn install --productionCMD [&amp;#34;node&amp;#34;, &amp;#34;src/index.js&amp;#34;]Why do we need them? There are millions of images on dockerhub that we can directly start using with a command like this.
+docker run -it --rm -d -p 8080:80 --name web nginx For various reasons, we may want to customize these base images.</description><content type="html"><![CDATA[<h2 id="what-is-a-dockerfile">What is a Dockerfile?</h2>
+<p>Dockerfile is a text document containing commands which can be run in sequence to assemble a docker image.</p>
+<p><a href="https://docs.docker.com/get-started/02_our_app/">A sample Dockerfile from the official docs</a> looks like this</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="c"># syntax=docker/dockerfile:1</span><span class="err">
+</span><span class="err"></span><span class="k">FROM</span><span class="s"> node:12-alpine</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> apk add --no-cache python g++ make<span class="err">
+</span><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /app</span><span class="err">
+</span><span class="err"></span><span class="k">COPY</span> . .<span class="err">
+</span><span class="err"></span><span class="k">RUN</span> yarn install --production<span class="err">
+</span><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;node&#34;</span><span class="p">,</span> <span class="s2">&#34;src/index.js&#34;</span><span class="p">]</span><span class="err">
+</span></code></pre></div><h2 id="why-do-we-need-them">Why do we need them?</h2>
+<p>There are millions of images on <a href="https://hub.docker.com/search?q=&amp;type=image">dockerhub</a> that we can directly start using with a command like this.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">docker run -it --rm -d -p 8080:80 --name web nginx
+</code></pre></div><p>For various reasons, we may want to customize these base images. Docker images are immutable, so we can&rsquo;t <em>exactly</em> modify them.
+We can technically run a container using an existing image, make some changes on it and then create a <em>new</em> image with these modifications using the <em>commit</em> command but there is a better way to accomplish this task
+However, before we start modifying images, we need to understand the concept of <a href="https://docs.docker.com/storage/storagedriver/">layers in docker</a></p>
+<h3 id="images-layers-and-containers">Images, Layers and Containers</h3>
+<p>Each Docker container consists of a readable and writable layer on top of multiple read only layers.
+These read only layers represent instructions in Dockerfiles, and they are deltas on previous layers(similar to git commits)</p>
+<p>Multiple containers can share the underlying layers since they have their own writable/readable layer on top.
+The readable and writable layer is a thin layer which has a lifespan associated with the container.</p>
+<p><img src="/images/dockerfile/layers.jpeg" alt="Docker Layer Sharing">
+<em>Docker Layer Sharing from <a href="https://docs.docker.com/storage/storagedriver/">About storage drivers</a></em></p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="c"># syntax=docker/dockerfile:1</span><span class="err">
+</span><span class="err"></span><span class="k">FROM</span><span class="s"> tiangolo/uvicorn-gunicorn-fastapi:python3.7</span><span class="err">
+</span><span class="err"></span><span class="k">LABEL</span> <span class="nv">maintainer</span><span class="o">=</span><span class="s2">&#34;Mehmet Baris Kalkar&#34;</span><span class="err">
+</span><span class="err"></span><span class="k">LABEL</span> <span class="nv">version</span><span class="o">=</span><span class="s2">&#34;1.1&#34;</span><span class="err">
+</span><span class="err"></span><span class="k">RUN</span> addgroup api <span class="o">&amp;&amp;</span> adduser fast <span class="o">&amp;&amp;</span> adduser fast api <span class="err">
+</span><span class="err"></span><span class="k">USER</span><span class="s"> fast:api</span><span class="err">
+</span><span class="err"></span><span class="k">ENV</span> <span class="nv">GREETING</span><span class="o">=</span><span class="s2">&#34;hola&#34;</span><span class="err">
+</span><span class="err"></span><span class="k">COPY</span> ./app /project/app<span class="err">
+</span><span class="err"></span><span class="k">WORKDIR</span><span class="s"> /project</span><span class="err">
+</span><span class="err"></span><span class="k">EXPOSE</span><span class="s"> 8090</span><span class="err">
+</span><span class="err"></span><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;uvicorn&#34;</span><span class="p">,</span> <span class="s2">&#34;app.main:app&#34;</span><span class="p">,</span> <span class="s2">&#34;--host&#34;</span><span class="p">,</span> <span class="s2">&#34;0.0.0.0&#34;</span><span class="p">,</span> <span class="s2">&#34;--port&#34;</span><span class="p">,</span> <span class="s2">&#34;8090&#34;</span><span class="p">]</span><span class="err">
+</span></code></pre></div><p>If we create a container from this same dockerfile, we will see a log similar to this:</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"> <span class="o">=</span>&gt; <span class="o">[</span>1/4<span class="o">]</span> FROM docker.io/tiangolo/uvicorn-gunicorn-fastapi:python3.7@sha256:a0e0188a485fd8c232d8774ae4680d3b834f95dd2deccdb0211ce71cfd778b97
+ <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load build <span class="nv">context</span>
+ <span class="o">=</span>&gt; <span class="o">=</span>&gt; transferring context: <span class="nv">56B</span>
+ <span class="o">=</span>&gt; <span class="o">[</span>2/4<span class="o">]</span> RUN addgroup api <span class="o">&amp;&amp;</span> adduser fast <span class="o">&amp;&amp;</span> adduser fast <span class="nv">api</span>
+ <span class="o">=</span>&gt; <span class="o">[</span>3/4<span class="o">]</span> COPY ./app /project/app 
+ <span class="o">=</span>&gt; <span class="o">[</span>4/4<span class="o">]</span> WORKDIR /project 
+ <span class="o">=</span>&gt; exporting to <span class="nv">image</span> 
+ <span class="o">=</span>&gt; <span class="o">=</span>&gt; exporting <span class="nv">layers</span> 
+ <span class="o">=</span>&gt; <span class="o">=</span>&gt; writing image sha256:3cef1a7b7ddc037fa375a1fb37daa907bc31031fedb4142b98e98e582c0bead5
+ <span class="o">=</span>&gt; <span class="o">=</span>&gt; naming to docker.io/library/fastapi
+</code></pre></div><p>One important thing to understand is <a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#leverage-build-cache">how these instructions are cached</a>.
+The result of some commands like FROM, COPY/ADD, RUN and WORKDIR can be cached.</p>
+<p>Cached instructions are marked in the build command. If we build the same image by changing only the WORKDIR instruction to project2, we would see something like this.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash"> <span class="o">=</span>&gt; CACHED <span class="o">[</span>1/4<span class="o">]</span> FROM docker.io/tiangolo/uvicorn-gunicorn-fastapi:python3.7@sha256:a0e0188a485fd8c232d8774ae4680d3b834f95dd2deccdb0211ce71cfd778b97
+ <span class="o">=</span>&gt; <span class="o">[</span>internal<span class="o">]</span> load build <span class="nv">context</span>
+ <span class="o">=</span>&gt; <span class="o">=</span>&gt; transferring context: <span class="nv">56B</span>
+ <span class="o">=</span>&gt; CACHED <span class="o">[</span>2/4<span class="o">]</span> RUN addgroup api <span class="o">&amp;&amp;</span> adduser fast <span class="o">&amp;&amp;</span> adduser fast <span class="nv">api</span>
+ <span class="o">=</span>&gt; CACHED <span class="o">[</span>3/4<span class="o">]</span> COPY ./app /project/app
+ <span class="o">=</span>&gt; <span class="o">[</span>4/4<span class="o">]</span> WORKDIR /project2
+ <span class="o">=</span>&gt; exporting to <span class="nv">image</span>
+ <span class="o">=</span>&gt; <span class="o">=</span>&gt; exporting <span class="nv">layers</span>
+ <span class="o">=</span>&gt; <span class="o">=</span>&gt; writing image sha256:fe482845750cf79708d1a6cc107578e76bd843f92fb3092d636180547b32b897
+ <span class="o">=</span>&gt; <span class="o">=</span>&gt; naming to docker.io/library/fastapi   
+</code></pre></div><p>Let&rsquo;s take a look at this Dockerfile line by line</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="c"># syntax=docker/dockerfile:1</span><span class="err">
+</span></code></pre></div><p>(Optional) <em><a href="https://docs.docker.com/engine/reference/builder/#syntax">syntax</a></em> is only enabled if we are building the image with <a href="https://docs.docker.com/engine/reference/builder/#buildkit">BuildKit</a>
+In this line, we can inform the Dockerfile builder which syntax to use while parsing the Dockerfile</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">FROM</span><span class="s"> tiangolo/uvicorn-gunicorn-fastapi:python3.7</span><span class="err">
+</span></code></pre></div><p><em>FROM</em> instruction is used to set the base image that we are going to use.
+This should always be the first instruction in a Dockerfile.</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">LABEL</span> <span class="nv">maintainer</span><span class="o">=</span><span class="s2">&#34;Mehmet Baris Kalkar&#34;</span><span class="err">
+</span><span class="err">
+</span><span class="err"></span><span class="k">LABEL</span> <span class="nv">version</span><span class="o">=</span><span class="s2">&#34;1.1&#34;</span><span class="err">
+</span></code></pre></div><p><em>LABEL</em> instructions are used to add metadata to images.</p>
+<p>Side note, There used to be a MAINTAINER instruction in the past, but it is deprecated now.</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">RUN</span> addgroup api <span class="o">&amp;&amp;</span> adduser fast <span class="o">&amp;&amp;</span> adduser fast api <span class="err">
+</span></code></pre></div><p><em>RUN</em> instruction is used to execute commands in a new layer on top of the current image and commit changes.
+Following steps will use the new image.</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">USER</span><span class="s"> fast:api</span><span class="err">
+</span></code></pre></div><p><em>USER</em> instruction sets the user and group for the following steps.</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">ENV</span> <span class="nv">GREETING</span><span class="o">=</span><span class="s2">&#34;hola&#34;</span><span class="err">
+</span></code></pre></div><p><em>ENV</em> is used to add environment variables to the container. This variable can be used in the following steps during build as well.
+If we want to use a variable in only a single command and not in the image, we can define use the RUN command with a variable instead.</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">RUN</span> <span class="nv">LOCUST_LOCUSTFILE</span><span class="o">=</span>custom_locustfile.py locust<span class="err">
+</span></code></pre></div><div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">COPY</span> ./app /project/app<span class="err">
+</span></code></pre></div><p><em>COPY [&ndash;chown=<!-- raw HTML omitted -->:<!-- raw HTML omitted -->] <!-- raw HTML omitted -->&hellip; <!-- raw HTML omitted --></em> copies files from source and adds it to the file system of the container
+Target path is always relative to the working directory.</p>
+<p><em>ADD</em> command also has a similar function, but it can also be used to fetch files from a remote URL or extract tar files.</p>
+<p><a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#add-or-copy">It is preferred to use COPY</a>
+over add because COPY is a more transparent and simple instruction.</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">WORKDIR</span><span class="s"> /project</span><span class="err">
+</span></code></pre></div><p><em>WORKDIR</em> Sets the working directory to run instructions like CMD, RUN, ENTRYPOINT and COPY after this step.</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">EXPOSE</span><span class="s"> 8090</span><span class="err">
+</span></code></pre></div><p><em>EXPOSE</em> is an informational instruction. It does not actually publish any ports, but it is used as a documentation to let
+users know which ports should be published to use the image.</p>
+<div class="highlight"><pre class="chroma"><code class="language-dockerfile" data-lang="dockerfile"><span class="k">CMD</span> <span class="p">[</span><span class="s2">&#34;uvicorn&#34;</span><span class="p">,</span> <span class="s2">&#34;app.main:app&#34;</span><span class="p">,</span> <span class="s2">&#34;--host&#34;</span><span class="p">,</span> <span class="s2">&#34;0.0.0.0&#34;</span><span class="p">,</span> <span class="s2">&#34;--port&#34;</span><span class="p">,</span> <span class="s2">&#34;8090&#34;</span><span class="p">]</span><span class="err">
+</span></code></pre></div><p><em>CMD</em> is the instruction to define the command you want to execute when run a container from an image.
+It is possible to override this command while actually running the image, so it acts as a default.</p>
+<p><em>ENTRYPOINT</em> and <em>CMD</em> are similar commands, <a href="https://www.ctl.io/developers/blog/post/dockerfile-entrypoint-vs-cmd/">the differences are explained here pretty well</a></p>
+<p><em>VOLUME</em> command is used to create mounting points within the container.
+We can use these volumes to <a href="https://docs.docker.com/storage/volumes/">share files between containers or the native host</a>.</p>
+]]></content></item><item><title>2021 April Reading List</title><link>https://baris.io/posts/2021-april-reading-list/</link><pubDate>Fri, 30 Apr 2021 16:00:00 +0200</pubDate><guid>https://baris.io/posts/2021-april-reading-list/</guid><description>I will be sharing roughly grouped links to articles or videos I enjoyed during the month and this is the first one.
 Architecture Heroku style deployments
 build your own X
 Porto - a modern software architecture pattern
