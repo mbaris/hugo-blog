@@ -4,7 +4,8 @@ date: 2021-04-21T00:29:39+02:00
 draft: false
 ---
 
-Hey, I am Baris 👋 I am an engineer/geek from Turkey. I am currently working and living in Berlin.
+Hey, I am Baris 👋 
+An engineer/geek from Turkey who is currently working and living in Berlin.
 
 This website will serve as a place to share what I am learning and working on. I also want to take more notes and have a deeper understanding of those topics while writing about them.
 
