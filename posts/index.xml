@@ -1,4 +1,92 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 02 May 2021 00:00:36 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Anatomy of a Dockerfile</title><link>https://baris.io/posts/anatomy-of-a-dockerfile/</link><pubDate>Sun, 02 May 2021 00:00:36 +0200</pubDate><guid>https://baris.io/posts/anatomy-of-a-dockerfile/</guid><description>What is a Dockerfile? Dockerfile is a text document containing commands which can be run in sequence to assemble a docker image.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 03 May 2021 22:00:00 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenMetrics and Prometheus Exposition Format</title><link>https://baris.io/posts/prometheus-exposition-format-openmetrics/</link><pubDate>Mon, 03 May 2021 22:00:00 +0200</pubDate><guid>https://baris.io/posts/prometheus-exposition-format-openmetrics/</guid><description>OpenMetrics is a CNCF project which aims to standardize the process of exposing metrics in cloud native apps. Specifications for OpenMetrics are public and can be read here
+Prometheus Exposition Format OpenMetrics is based on Prometheus Exposition Format. Which is a simple, text-based and human-readable data format with wide adoption in the community.
+There were hundreds of integrations around this data format for Prometheus, even some other monitoring tools started reusing it.</description><content type="html"><![CDATA[<p>OpenMetrics is a CNCF project which aims to standardize the process of exposing metrics in cloud native apps.
+Specifications for OpenMetrics are public and can be read <a href="https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md">here</a></p>
+<h2 id="prometheus-exposition-format">Prometheus Exposition Format</h2>
+<p>OpenMetrics is based on <em>Prometheus Exposition Format</em>. Which is a simple, text-based and human-readable data format with wide adoption in the community.</p>
+<p>There were hundreds of integrations around this data format for Prometheus, even some other monitoring tools started reusing it.
+However, having &ldquo;Prometheus&rdquo; in the name made it difficult to get support from competitors or other relevant parties.
+OpenMetrics aims to change this by being a more vendor-neutral and <em>open</em> data format.
+This may look like a strategic PR move, but it has the support of some of the largest organizations already. So looks like it has a great future.</p>
+<h3 id="data-model">Data Model</h3>
+<p>Exposed metric data in OpenMetrics looks like this.</p>
+<pre><code># TYPE acme_http_router_request_seconds summary
+# UNIT acme_http_router_request_seconds seconds
+# HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
+acme_http_router_request_seconds_sum{path=&quot;/api/v1&quot;,method=&quot;GET&quot;} 9036.32
+acme_http_router_request_seconds_count{path=&quot;/api/v1&quot;,method=&quot;GET&quot;} 807283.0
+acme_http_router_request_seconds_created{path=&quot;/api/v1&quot;,method=&quot;GET&quot;} 1605281325.0
+acme_http_router_request_seconds_sum{path=&quot;/api/v2&quot;,method=&quot;POST&quot;} 479.3
+acme_http_router_request_seconds_count{path=&quot;/api/v2&quot;,method=&quot;POST&quot;} 34.0
+acme_http_router_request_seconds_created{path=&quot;/api/v2&quot;,method=&quot;POST&quot;} 1605281325.0
+# TYPE go_goroutines gauge
+# HELP go_goroutines Number of goroutines that currently exist.
+go_goroutines 69
+# TYPE process_cpu_seconds counter
+# UNIT process_cpu_seconds seconds
+# HELP process_cpu_seconds Total user and system CPU time spent in seconds.
+process_cpu_seconds_total 4.20072246e+06
+# EOF
+</code></pre><p>One of the best features of this format is the readability.</p>
+<p>With <em>TYPE</em> we define the <a href="https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md#metric-types">metric type</a> and a label.
+With <em>UNIT</em> we define the unit we are using in this MetricFamily.
+<em>HELP</em> is a description of metric family for human consumption. Should be a short string so that it can be used as a tooltip.</p>
+<h2 id="metric-types">Metric types</h2>
+<h3 id="counter">Counter</h3>
+<p>Counter is a metric type which counts discrete events. It must have a value called total and must be non-decreasing over time.
+A counter can be used to count number of errors or requests, cpu time spent or some other cumulative data.</p>
+<pre><code># TYPE process_cpu_seconds counter
+# UNIT process_cpu_seconds seconds
+# HELP process_cpu_seconds Total user and system CPU time spent in seconds.
+process_cpu_seconds_total 4.20072246e+06
+</code></pre><h3 id="gauge">Gauge</h3>
+<p>Gauge is one of the simplest metric types there is. It consists of a single value which can change over time.
+Contrary to counter, gauge can change its value at any given time and decrease in value.</p>
+<pre><code># TYPE go_goroutines gauge
+# HELP go_goroutines Number of goroutines that currently exist.
+go_goroutines 69
+</code></pre><h3 id="histogram">Histogram</h3>
+<pre><code># TYPE request_duration histogram
+# HELP request_duration help
+request_duration_bucket{le=&quot;0&quot;} 0
+request_duration_bucket{le=&quot;0.00000000001&quot;} 0
+request_duration_bucket{le=&quot;0.0000000001&quot;} 0
+request_duration_bucket{le=&quot;1e-04&quot;} 0
+request_duration_bucket{le=&quot;1.1e-4&quot;} 0
+request_duration_bucket{le=&quot;1.1e-3&quot;} 0
+request_duration_bucket{le=&quot;1.1e-2&quot;} 0
+request_duration_bucket{le=&quot;1&quot;} 0
+request_duration_bucket{le=&quot;1e+05&quot;} 0
+request_duration_bucket{le=&quot;10000000000&quot;} 0
+request_duration_bucket{le=&quot;100000000000.0&quot;} 0
+request_duration_bucket{le=&quot;+Inf&quot;} 3
+request_duration_count 3
+request_duration_sum 2
+# EOF
+</code></pre><p>Histograms are used to measure discrete events and split them into buckets. Common examples are request durations and I/O request sizes.
+Histogram MetricPoints must have at least one bucket. count, created and sum values are optional.</p>
+<h3 id="summary">Summary</h3>
+<pre><code># TYPE acme_http_router_request_seconds summary
+# UNIT acme_http_router_request_seconds seconds
+# HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
+acme_http_router_request_seconds_sum{path=&quot;/api/v1&quot;,method=&quot;GET&quot;} 9036.32
+acme_http_router_request_seconds_count{path=&quot;/api/v1&quot;,method=&quot;GET&quot;} 807283.0
+acme_http_router_request_seconds_created{path=&quot;/api/v1&quot;,method=&quot;GET&quot;} 1605281325.0
+acme_http_router_request_seconds_sum{path=&quot;/api/v2&quot;,method=&quot;POST&quot;} 479.3
+acme_http_router_request_seconds_count{path=&quot;/api/v2&quot;,method=&quot;POST&quot;} 34.0
+acme_http_router_request_seconds_created{path=&quot;/api/v2&quot;,method=&quot;POST&quot;} 1605281325.0
+</code></pre><p>Summaries are pretty similar to histograms, and they may be used when histograms are too expensive.
+We can use sum, count and created values to create summaries.</p>
+<h3 id="info">Info</h3>
+<p>Info metrics are used to expose information which stays the same during the lifetime of a service.
+Like build version, environment, region or service-name</p>
+<h2 id="metrics-endpoint">Metrics Endpoint</h2>
+<p>Implementers of this standard must expose metrics in OpenMetrics format a response to an HTTP Get request to a documented endpoint,
+which <em>should</em> be named /metrics.
+This endpoint will be consumed periodically, it must be able to respond with meaningful data for successive invocations.</p>
+<h3 id="micrometer-and-spring-actuator">Micrometer and Spring Actuator</h3>
+<p>My experience with exposing metrics to Datadog on a Spring Boot service in this format was incredibly easy and satisfying with <a href="https://spring.io/blog/2018/03/16/micrometer-spring-boot-2-s-new-application-metrics-collector">Spring Boot Actuator and Micrometer</a></p>
+]]></content></item><item><title>Anatomy of a Dockerfile</title><link>https://baris.io/posts/anatomy-of-a-dockerfile/</link><pubDate>Sun, 02 May 2021 00:00:36 +0200</pubDate><guid>https://baris.io/posts/anatomy-of-a-dockerfile/</guid><description>What is a Dockerfile? Dockerfile is a text document containing commands which can be run in sequence to assemble a docker image.
 A sample Dockerfile from the official docs looks like this
 # syntax=docker/dockerfile:1FROMnode:12-alpineRUN apk add --no-cache python g++ makeWORKDIR/appCOPY . .RUN yarn install --productionCMD [&amp;#34;node&amp;#34;, &amp;#34;src/index.js&amp;#34;]Why do we need them? There are millions of images on dockerhub that we can directly start using with a command like this.
 docker run -it --rm -d -p 8080:80 --name web nginx For various reasons, we may want to customize these base images.</description><content type="html"><![CDATA[<h2 id="what-is-a-dockerfile">What is a Dockerfile?</h2>
