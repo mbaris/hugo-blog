@@ -13,3 +13,5 @@ tags: ["reading"]
 [Hosting SQLite databases on Github Pages](https://phiresky.github.io/blog/2021/hosting-sqlite-databases-on-github-pages/)
 
 [Listen to Postgresql changes via websockets](https://github.com/supabase/realtime)
+
+[The end of AMP](ttps://www.lafoo.com/the-end-of-amp/)
