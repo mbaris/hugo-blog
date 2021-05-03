@@ -6,7 +6,7 @@ Specifications for OpenMetrics are public and can be read <a href="https://githu
 <p>OpenMetrics is based on <em>Prometheus Exposition Format</em>. Which is a simple, text-based and human-readable data format with wide adoption in the community.</p>
 <p>There were hundreds of integrations around this data format for Prometheus, even some other monitoring tools started reusing it.
 However, having &ldquo;Prometheus&rdquo; in the name made it difficult to get support from competitors or other relevant parties.
-OpenMetrics aims to change this by being a more vendor-neutral and <em>open</em> data format.
+OpenMetrics wants to change this by being a more vendor-neutral and <em>open</em> data format.
 This may look like a strategic PR move, but it has the support of some of the largest organizations already. So looks like it has a great future.</p>
 <h3 id="data-model">Data Model</h3>
 <p>Exposed metric data in OpenMetrics looks like this.</p>
@@ -46,6 +46,8 @@ Contrary to counter, gauge can change its value at any given time and decrease i
 # HELP go_goroutines Number of goroutines that currently exist.
 go_goroutines 69
 </code></pre><h3 id="histogram">Histogram</h3>
+<p>Histograms are used to measure discrete events and split them into buckets. Common examples are request durations and I/O request sizes.
+Histogram MetricPoints must have at least one bucket. count, created and sum values are optional.</p>
 <pre><code># TYPE request_duration histogram
 # HELP request_duration help
 request_duration_bucket{le=&quot;0&quot;} 0
@@ -63,9 +65,9 @@ request_duration_bucket{le=&quot;+Inf&quot;} 3
 request_duration_count 3
 request_duration_sum 2
 # EOF
-</code></pre><p>Histograms are used to measure discrete events and split them into buckets. Common examples are request durations and I/O request sizes.
-Histogram MetricPoints must have at least one bucket. count, created and sum values are optional.</p>
-<h3 id="summary">Summary</h3>
+</code></pre><h3 id="summary">Summary</h3>
+<p>Summaries are pretty similar to histograms, and they may be used when histograms are too expensive.
+We can use sum, count and created values to create summaries.</p>
 <pre><code># TYPE acme_http_router_request_seconds summary
 # UNIT acme_http_router_request_seconds seconds
 # HELP acme_http_router_request_seconds Latency though all of ACME's HTTP request router.
@@ -75,9 +77,7 @@ acme_http_router_request_seconds_created{path=&quot;/api/v1&quot;,method=&quot;G
 acme_http_router_request_seconds_sum{path=&quot;/api/v2&quot;,method=&quot;POST&quot;} 479.3
 acme_http_router_request_seconds_count{path=&quot;/api/v2&quot;,method=&quot;POST&quot;} 34.0
 acme_http_router_request_seconds_created{path=&quot;/api/v2&quot;,method=&quot;POST&quot;} 1605281325.0
-</code></pre><p>Summaries are pretty similar to histograms, and they may be used when histograms are too expensive.
-We can use sum, count and created values to create summaries.</p>
-<h3 id="info">Info</h3>
+</code></pre><h3 id="info">Info</h3>
 <p>Info metrics are used to expose information which stays the same during the lifetime of a service.
 Like build version, environment, region or service-name</p>
 <h2 id="metrics-endpoint">Metrics Endpoint</h2>
@@ -85,7 +85,8 @@ Like build version, environment, region or service-name</p>
 which <em>should</em> be named /metrics.
 This endpoint will be consumed periodically, it must be able to respond with meaningful data for successive invocations.</p>
 <h3 id="micrometer-and-spring-actuator">Micrometer and Spring Actuator</h3>
-<p>My experience with exposing metrics to Datadog on a Spring Boot service in this format was incredibly easy and satisfying with <a href="https://spring.io/blog/2018/03/16/micrometer-spring-boot-2-s-new-application-metrics-collector">Spring Boot Actuator and Micrometer</a></p>
+<p>My experience with exposing metrics(in Prometheus Exposition Format) to Datadog on a Spring Boot service in this format
+was incredibly easy and satisfying with <a href="https://spring.io/blog/2018/03/16/micrometer-spring-boot-2-s-new-application-metrics-collector">Spring Boot Actuator and Micrometer</a></p>
 ]]></content></item><item><title>Anatomy of a Dockerfile</title><link>https://baris.io/posts/anatomy-of-a-dockerfile/</link><pubDate>Sun, 02 May 2021 00:00:36 +0200</pubDate><guid>https://baris.io/posts/anatomy-of-a-dockerfile/</guid><description>What is a Dockerfile? Dockerfile is a text document containing commands which can be run in sequence to assemble a docker image.
 A sample Dockerfile from the official docs looks like this
 # syntax=docker/dockerfile:1FROMnode:12-alpineRUN apk add --no-cache python g++ makeWORKDIR/appCOPY . .RUN yarn install --productionCMD [&amp;#34;node&amp;#34;, &amp;#34;src/index.js&amp;#34;]Why do we need them? There are millions of images on dockerhub that we can directly start using with a command like this.
