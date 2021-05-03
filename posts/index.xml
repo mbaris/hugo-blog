@@ -263,8 +263,9 @@ I will take a look at <a href="https://registry.terraform.io/providers/hashicorp
 <p>There is obviously a learning curve for everyone involved, but it is certainly worth the effort.<br>
 In my opinion, this is one thing every software company should spend some time on.</p>
 ]]></content></item><item><title>Observability 101</title><link>https://baris.io/posts/observability/</link><pubDate>Mon, 19 Apr 2021 23:50:25 +0200</pubDate><guid>https://baris.io/posts/observability/</guid><description>Systems we build and maintain are becoming more complex and abstract with the increase in popularity of distributed systems, microservices, and cloud providers. With these new concepts, our view of failures has changed as well.
-We have to assume things can and will break when we do not expect. So we have to make sure it is possible to understand what is happening in our services it any given time</description><content type="html"><![CDATA[<p>Systems we build and maintain are becoming more complex and abstract with the increase in popularity of distributed systems, microservices, and cloud providers. With these new concepts, our view of failures has changed as well.</p>
-<p>We have to assume things can and will break when we do not expect. So we have to make sure it is possible to understand what is happening in our services it any given time</p>
+We have to assume things can and will break any time. So we have to make sure it is possible to understand what is happening within our services at any given time
+Observability The Wikipedia definition of observability is</description><content type="html"><![CDATA[<p>Systems we build and maintain are becoming more complex and abstract with the increase in popularity of distributed systems, microservices, and cloud providers. With these new concepts, our view of failures has changed as well.</p>
+<p>We have to assume things can and will break any time. So we have to make sure it is possible to understand what is happening within our services at any given time</p>
 <h2 id="observability">Observability</h2>
 <p>The Wikipedia definition of observability is</p>
 <blockquote>
@@ -272,23 +273,33 @@ We have to assume things can and will break when we do not expect. So we have to
 </blockquote>
 <p>In software, these external outputs are usually grouped as <em>Logs</em>, <em>Metrics</em>, and <em>Request Traces</em>. Called <em>The Three Pillars of Observability</em>, they solve different problems, have different weaknesses and strengths.</p>
 <h2 id="monitoring">Monitoring</h2>
-<p>Monitoring is another keyword that is used together with observability. It is the act of collecting these external outputs and after aggregating, analyzing and visualizing them, creating meaningful alerts with this data. These two concepts are closely related because the higher observability a system has, the better you can monitor it.</p>
+<p>Monitoring is another keyword that is used together with observability.
+It is the act of collecting these external outputs and after aggregating, analyzing and visualizing them,
+creating meaningful alerts with this data. These two concepts are closely related because the higher observability a system has,
+the better you can monitor it.</p>
 <h2 id="expected-and-unexpected-problems">Expected and Unexpected Problems</h2>
-<p>Monitoring is helpful when expected things fail. And by expected, I mean things we can set alerts on beforehand. We can start monitoring common things every single software system has like CPU, memory or disk usage, request counts, 4xx responses, 5xx responses and average/max durations. Then we can set alarms on Exceptions from the codebase by checking logs or something more advanced. We can also take it one step further and monitor application/domain specific events like login requests or purchase event numbers, revenue etc.</p>
-<p>Observability on the other hand helps with dealing with unexpected problems as well. To find the root cause of a completely new problem we can follow steps like this:</p>
+<p>Monitoring is helpful when expected things fail. By expected, I mean things we can set alerts on beforehand.
+We can start monitoring common things every single software system has like CPU, memory or disk usage, request counts,
+4xx responses, 5xx responses and average/max durations. Then we can set alarms on Exceptions from the codebase by checking logs or create alerts asynchronously by catching them.
+We can also take it one step further and monitor application/domain specific events like login requests, purchase events, revenue etc.</p>
+<p>On the other hand, Observability helps while with unexpected problems as well.</p>
+<p>To find the root cause of a completely new problem we can follow steps like this:</p>
 <ol>
 <li>check metrics to search for an anomaly(long durations, 5xx responses etc.)</li>
 <li>focusing on a specific timeframe in logs, we can try to find a problematic event. We can search for the relevant log entries for the same request with a traceId</li>
 <li>using the same traceId from logs, we can analyze the lifecycle of problematic requests</li>
 </ol>
-<p>Sometimes we can find causes of problems very easily and go on with our lives and sometimes even with all the data in our hands, it is really difficult to find something concrete. There is always room for improvement with dashboards, alert runbooks and better log messages.</p>
+<p>Having these logs, metrics or traces reliably improves Observability.
+Sometimes we can find causes of problems very easily and go on with our lives and sometimes even with all the data in our hands,
+it is still really difficult to find something concrete. There is always room for improvement with dashboards, alert runbooks and better log messages.</p>
 <h2 id="benefits">Benefits</h2>
 <p>Both observability and monitoring are highly valuable concepts because in an ideal world:</p>
-<ol>
-<li>If there are no problems in the system, we should be able to relax and sleep at night knowing that we would be notified with an alert if and when something goes wrong.</li>
-<li>And when there is a problem, we should first be notified and then have the required information available to investigate the root cause and do something in a short time.</li>
-<li>Another huge benefit of having an observable and monitored system is that it provides confidence and speed to developers. They can know if a change has caused any problems or not. And if it did, they are aware of the problem as soon as possible and more consistently.</li>
-</ol>
+<ul>
+<li>If everything is working as expected in the system, we should be able to relax and sleep at night knowing that we would be notified with an alert if and when something goes wrong.</li>
+<li>When there is a problem, we should first be notified and then have the required information available to investigate the root cause and do something in a short time.</li>
+</ul>
+<p>Another huge benefit of having an observable and monitored system is that it provides confidence and speed to developers.
+They can know if a change has caused any problems or not. In case of an incident, they are aware of the issue as soon as possible and more consistently.</p>
 <h2 id="future">Future</h2>
 <p>With successful projects like OpenTelemetry(previously OpenTracing and OpenCensus) and OpenMetrics there is a lot of discussion and standardization taking place in this area. It is an exciting field with lots of things to learn so I hope to learn and write more about this.</p>
 ]]></content></item><item><title>Design Patterns - Singleton</title><link>https://baris.io/posts/singleton/</link><pubDate>Mon, 19 Apr 2021 23:49:53 +0200</pubDate><guid>https://baris.io/posts/singleton/</guid><description>Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it.
