@@ -20,8 +20,8 @@ googleAnalytics = "UA-56410734-1"
   dateformShort   = "Jan 2"
   dateformNum     = "2006-01-02"
   dateformNumTime = "2006-01-02 15:04 -0700"
-  description = "Mehmet Baris Kalkar's dev diary"
-  homeSubtitle="My thoughts and experiences on technology"
+  description = "Software engineer interested in Observability, Minimalism and Serverless"
+  homeSubtitle="Thoughts and experiences on software development in the cloud"
 
   [[params.social]]
     name = "twitter"
