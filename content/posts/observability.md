@@ -2,7 +2,7 @@
 title: "Observability 101"
 date: 2021-04-19T23:50:25+02:00
 draft: false
-tags: ["devops" ,"monitoring", "infrastructure"]
+tags: ["devops"]
 description: "We have to assume things can and will break when we do not expect. So we have to make sure it is possible to understand what is happening in our services it any given time"
 ---
 

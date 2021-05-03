@@ -2,7 +2,7 @@
 title: "Design Patterns - Singleton"
 date: 2021-04-19T23:49:53+02:00
 draft: false
-tags: ["programming", "java", "design-patterns"]
+tags: ["programming","java"]
 description: "Singleton is a design pattern that limits the instantiation of a class to a single instance and provides global access to it"
 ---
 

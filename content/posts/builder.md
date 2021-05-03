@@ -2,7 +2,7 @@
 title: "Design Patterns - Builder"
 date: 2021-04-19T23:48:35+02:00
 draft: false
-tags: ["programming", "java", "design-patterns"]
+tags: ["programming","java"]
 description: "The builder pattern allows us to write readable and understandable code to build complex objects."
 ---
 

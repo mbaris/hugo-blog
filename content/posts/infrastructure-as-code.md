@@ -2,7 +2,7 @@
 title: "Infrastructure as Code"
 date: 2021-04-25T00:02:25+02:00
 draft: false
-tags: ["devops", "infrastructure"]
+tags: ["devops"]
 description: "Infrastructure as code is the practice of managing and provisioning resources through definition files"
 ---
 

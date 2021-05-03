@@ -3,7 +3,7 @@ title: "2021 April Reading List"
 date: 2021-04-30T16:00:00+02:00
 draft: false
 description: "reading list with articles or videos I enjoyed during April 2021'"
-tags: ["programming", "reading"]
+tags: ["reading"]
 ---
 
 I will be sharing roughly grouped links to articles or videos I enjoyed during the month and this is the first one.

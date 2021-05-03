@@ -2,7 +2,7 @@
 title: "Anatomy of a Dockerfile"
 date: 2021-05-02T00:00:36+02:00
 draft: false
-tags: ["containers", "devops", "infrastructure"]
+tags: ["devops"]
 description: "Dockerfile is a text document containing commands which can be run in sequence to assemble a docker image"
 ---
 
