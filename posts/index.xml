@@ -85,7 +85,7 @@ Like build version, environment, region or service-name</p>
 which <em>should</em> be named /metrics.
 This endpoint will be consumed periodically, it must be able to respond with meaningful data for successive invocations.</p>
 <h3 id="micrometer-and-spring-actuator">Micrometer and Spring Actuator</h3>
-<p>My experience with exposing metrics(in Prometheus Exposition Format) to Datadog on a Spring Boot service in this format
+<p>My experience with exposing metrics(in Prometheus Exposition Format) to Datadog on a Spring Boot service
 was incredibly easy and satisfying with <a href="https://spring.io/blog/2018/03/16/micrometer-spring-boot-2-s-new-application-metrics-collector">Spring Boot Actuator and Micrometer</a></p>
 ]]></content></item><item><title>Anatomy of a Dockerfile</title><link>https://baris.io/posts/anatomy-of-a-dockerfile/</link><pubDate>Sun, 02 May 2021 00:00:36 +0200</pubDate><guid>https://baris.io/posts/anatomy-of-a-dockerfile/</guid><description>What is a Dockerfile? Dockerfile is a text document containing commands which can be run in sequence to assemble a docker image.
 A sample Dockerfile from the official docs looks like this
