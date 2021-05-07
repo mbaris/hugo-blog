@@ -1,4 +1,115 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 03 May 2021 22:00:00 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>OpenMetrics and Prometheus Exposition Format</title><link>https://baris.io/posts/prometheus-exposition-format-openmetrics/</link><pubDate>Mon, 03 May 2021 22:00:00 +0200</pubDate><guid>https://baris.io/posts/prometheus-exposition-format-openmetrics/</guid><description>OpenMetrics is a CNCF project which aims to standardize the process of exposing metrics in cloud native apps. Specifications for OpenMetrics are public and can be read here
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 07 May 2021 10:10:24 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Grafana Dashboard for Spring Boot via Micrometer and Prometheus</title><link>https://baris.io/posts/micrometer-spring-boot/</link><pubDate>Fri, 07 May 2021 10:10:24 +0200</pubDate><guid>https://baris.io/posts/micrometer-spring-boot/</guid><description>We will be implementing a grafana dashboard with metrics from a prometheus instance, which periodically fetches data from a Spring Boot App. I will keep this implementation as minimal as I can and will create another post with more detailed use cases.
+We will begin by generating a simple project on Spring Initialzr
+We just need the dependencies to Spring Boot Web, Spring Boot Actuator and Prometheus Registry for Micrometer. Once we import the project and run it, we will see in the logs that actuator is running for 2 endpoints already.</description><content type="html"><![CDATA[<p>We will be implementing a grafana dashboard with metrics from a prometheus instance, which periodically fetches data from a Spring Boot App.
+I will keep this implementation as minimal as I can and will create another post with more detailed use cases.</p>
+<p>We will begin by generating a simple project on <a href="https://start.spring.io/">Spring Initialzr</a></p>
+<p><img src="/images/metrics/spring.webp" alt="Spring Starter"></p>
+<p>We just need the dependencies to Spring Boot Web, <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html">Spring Boot Actuator</a>
+and <a href="https://micrometer.io/docs/registry/prometheus">Prometheus Registry for Micrometer</a>.
+Once we import the project and run it, we will see in the logs that actuator is running for 2 endpoints already.</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">No active profile set, falling back to default profiles: default
+Tomcat initialized with port(s): 8080 (http)
+Starting service [Tomcat]
+Starting Servlet engine: [Apache Tomcat/9.0.45]
+Initializing Spring embedded WebApplicationContext
+Root WebApplicationContext: initialization completed in 906 ms
+Initializing ExecutorService &#39;applicationTaskExecutor&#39;
+Exposing 2 endpoint(s) beneath base path &#39;/actuator&#39;
+Tomcat started on port(s): 8080 (http) with context path &#39;&#39;
+Started MetricsDemoAppApplication in 1.793 seconds (JVM running for 2.086)
+</code></pre></div><p>These two endpoints are info and health.</p>
+<p>We can call them to verify if evertying is working correctly.</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">curl localhost:8080/actuator/health
+<span class="o">{</span>
+  <span class="s2">&#34;status&#34;</span>: <span class="s2">&#34;UP&#34;</span>
+<span class="o">}</span>
+</code></pre></div><p>Micrometer Prometheus registry exposes a lot of useful metrics, however it is not autoconfigured by default.
+We have to add a line in our <em>application.yml</em> under <em>resources</em> to enable its integration with actuator.</p>
+<h3 id="applicationyml">application.yml</h3>
+<pre><code>management.endpoints.web.exposure.include=info,health,prometheus
+</code></pre><p>If we restart the app after adding this line, we will see that we now have 3 endpoints configured by actuator.</p>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">Exposing 3 endpoint(s) beneath base path &#39;/actuator&#39;
+</code></pre></div><p>The response from this new /prometheus endpoint is in Prometheus Exposition Format which I have talked about in my previous post.</p>
+<pre><code>curl localhost:8080/actuator/prometheus
+</code></pre><div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"># HELP jvm_threads_peak_threads The peak live thread count since the Java virtual machine started or peak was reset
+# TYPE jvm_threads_peak_threads gauge
+jvm_threads_peak_threads 21.0
+# HELP process_files_open_files The open file descriptor count
+# TYPE process_files_open_files gauge
+process_files_open_files 58.0
+# HELP tomcat_sessions_rejected_sessions_total  
+# TYPE tomcat_sessions_rejected_sessions_total counter
+tomcat_sessions_rejected_sessions_total 0.0
+# HELP jvm_classes_unloaded_classes_total The total number of classes unloaded since the Java virtual machine has started execution
+# TYPE jvm_classes_unloaded_classes_total counter
+jvm_classes_unloaded_classes_total 0.0
+# HELP tomcat_sessions_created_sessions_total  
+# TYPE tomcat_sessions_created_sessions_total counter
+tomcat_sessions_created_sessions_total 0.0
+# HELP jvm_classes_loaded_classes The number of classes that are currently loaded in the Java virtual machine
+# TYPE jvm_classes_loaded_classes gauge
+jvm_classes_loaded_classes 7030.0
+# HELP process_uptime_seconds The uptime of the Java virtual machine
+# TYPE process_uptime_seconds gauge
+process_uptime_seconds 155.295
+# HELP jvm_threads_daemon_threads The current number of live daemon threads
+# TYPE jvm_threads_daemon_threads gauge
+jvm_threads_daemon_threads 17.0
+# HELP system_cpu_usage The &#34;recent cpu usage&#34; for the whole system
+# TYPE system_cpu_usage gauge
+system_cpu_usage 0.0
+...
+</code></pre></div><p>This format can be ingested by prometheus directly. So what we need now is to run a prometheus and grafana instances.
+One of the easiest ways to achieve this is using docker-compose on development stage.</p>
+<h3 id="docker-composeyml">docker-compose.yml</h3>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text">version: &#39;3.7&#39;
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+</code></pre></div><h3 id="prometheusyml">prometheus.yml</h3>
+<div class="highlight"><pre class="chroma"><code class="language-text" data-lang="text"># Default settings from https://prometheus.io/docs/prometheus/latest/getting_started/
+global:
+scrape_interval:     15s
+scrape_configs:
+- job_name: &#39;prometheus&#39;
+  metrics_path: &#39;/actuator/prometheus&#39;
+  scrape_interval: 5s
+  static_configs:
+    - targets: [&#39;host.docker.internal:8080&#39;]
+</code></pre></div><p>We need these two files in a folder where we will be running</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">docker-compose up -d
+</code></pre></div><p>If there are no errors, we should have two running containers now.</p>
+<p><img src="/images/metrics/docker-dashboard.webp" alt="Docker Dashboard"></p>
+<p>So at this point we have</p>
+<ul>
+<li>A Spring Boot app running on 8080</li>
+<li>Grafana on 3000</li>
+<li>Prometheus on 9090</li>
+</ul>
+<p>On localhost:9090/targets we should see the state of our Spring Boot app as <em>UP</em> in</p>
+<p><img src="/images/metrics/prometheus.webp" alt="Prometheus Targets"></p>
+<p>Now that we have a Prometheus instance which is collecting metrics from our app, we can start exposing this data to Grafana.</p>
+<p>We can log in to grafana on localhost:3000 with default credentials, <em>username:admin password:admin</em>
+First thing we need to do is to add Prometheus as a data source.</p>
+<p><img src="/images/metrics/data-source-prometheus.webp" alt="Prometheus Targets"></p>
+<p>We are using <em>host.docker.internal:9090</em> to target Prometheus.
+localhost:9090 would not work because both apps are running on containers.</p>
+<p>Now that we have a datasource, we can create dashboards.</p>
+<p>While we can also create dashboards manually, micrometer has a great template we can use for tomcat + jvm metrics they publish.</p>
+<p><img src="/images/metrics/import-dashboard.webp" alt="Import Dashboard"></p>
+<p>We will load &ldquo;<a href="https://grafana.com/grafana/dashboards/4701%22">https://grafana.com/grafana/dashboards/4701&quot;</a> from grafana.com and choose Prometheus as our data source</p>
+<p><img src="/images/metrics/dashboard-jvm.webp" alt="Dashboard JVM"></p>
+]]></content></item><item><title>OpenMetrics and Prometheus Exposition Format</title><link>https://baris.io/posts/prometheus-exposition-format-openmetrics/</link><pubDate>Mon, 03 May 2021 22:00:00 +0200</pubDate><guid>https://baris.io/posts/prometheus-exposition-format-openmetrics/</guid><description>OpenMetrics is a CNCF project which aims to standardize the process of exposing metrics in cloud native apps. Specifications for OpenMetrics are public and can be read here
 Prometheus Exposition Format OpenMetrics is based on Prometheus Exposition Format. Which is a simple, text-based and human-readable data format with wide adoption in the community.
 There were hundreds of integrations around this data format for Prometheus, even some other monitoring tools started reusing it.</description><content type="html"><![CDATA[<p>OpenMetrics is a CNCF project which aims to standardize the process of exposing metrics in cloud native apps.
 Specifications for OpenMetrics are public and can be read <a href="https://github.com/OpenObservability/OpenMetrics/blob/main/specification/OpenMetrics.md">here</a></p>
