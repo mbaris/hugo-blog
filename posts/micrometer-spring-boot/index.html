@@ -13,7 +13,7 @@ Initializing ExecutorService &#39;applicationTaskExecutor&#39;
 Exposing 2 endpoint(s) beneath base path &#39;/actuator&#39;
 Tomcat started on port(s): 8080 (http) with context path &#39;&#39;
 Started MetricsDemoAppApplication in 1.793 seconds (JVM running for 2.086)
-</code></pre></div><p>These two endpoints are info and health.</p><p>We can call them to verify if evertying is working correctly.</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>curl localhost:8080/actuator/health
+</code></pre></div><p>These two endpoints are info and health.</p><p>We can call them to verify if everything is working correctly.</p><div class=highlight><pre class=chroma><code class=language-bash data-lang=bash>curl localhost:8080/actuator/health
 <span class=o>{</span>
   <span class=s2>&#34;status&#34;</span>: <span class=s2>&#34;UP&#34;</span>
 <span class=o>}</span>
