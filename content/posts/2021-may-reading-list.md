@@ -15,3 +15,7 @@ tags: ["reading"]
 [Listen to Postgresql changes via websockets](https://github.com/supabase/realtime)
 
 [The end of AMP](ttps://www.lafoo.com/the-end-of-amp/)
+
+[Signal - Instagram ads you will never see](https://signal.org/blog/the-instagram-ads-you-will-never-see/)
+
+[Cloud Native Glossary](https://github.com/cncf/glossary)
