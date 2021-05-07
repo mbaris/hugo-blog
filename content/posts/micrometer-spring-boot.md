@@ -32,7 +32,7 @@ Started MetricsDemoAppApplication in 1.793 seconds (JVM running for 2.086)
 
 These two endpoints are info and health.
 
-We can call them to verify if evertying is working correctly.
+We can call them to verify if everything is working correctly.
 ``` bash
 curl localhost:8080/actuator/health
 {
