@@ -1,6 +1,6 @@
 ---
 title: "Grafana Dashboard for Spring Boot via Micrometer and Prometheus"
-date: 2021-05-07T23:31:24+02:00
+date: 2021-05-07T10:10:24+02:00
 draft: false
 tags: ["devops"]
 description: "Grafana Dashboard for Spring Boot via Micrometer and Prometheus"
