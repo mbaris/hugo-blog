@@ -22,6 +22,7 @@ googleAnalytics = "UA-56410734-1"
   dateformNumTime = "2006-01-02 15:04 -0700"
   description = "Software engineer interested in Observability, Minimalism and Serverless"
   homeSubtitle="Thoughts and experiences on software development in the cloud"
+  images = ["/twitter-card-large.png"]
 
   [[params.social]]
     name = "twitter"
