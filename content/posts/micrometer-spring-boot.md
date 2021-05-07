@@ -3,7 +3,7 @@ title: "Grafana Dashboard for Spring Boot via Micrometer and Prometheus"
 date: 2021-05-07T10:10:24+02:00
 draft: false
 tags: ["devops"]
-description: "Grafana Dashboard for Spring Boot via Micrometer and Prometheus"
+description: "Minimal implementation for spring boot, micrometer, prometheus and grafana using spring-initialzr and docker-compose"
 ---
 
 We will be implementing a grafana dashboard with metrics from a prometheus instance, which periodically fetches data from a Spring Boot App.
