@@ -1,4 +1,42 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 07 May 2021 10:10:24 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Grafana Dashboard for Spring Boot via Micrometer and Prometheus</title><link>https://baris.io/posts/micrometer-spring-boot/</link><pubDate>Fri, 07 May 2021 10:10:24 +0200</pubDate><guid>https://baris.io/posts/micrometer-spring-boot/</guid><description>We will be implementing a grafana dashboard with metrics from a prometheus instance, which periodically fetches data from a Spring Boot App. I will keep this implementation as minimal as I can and will create another post with more detailed use cases.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 09 May 2021 09:09:00 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Creating a Blog on a custom domain with GitHub Actions and Hugo</title><link>https://baris.io/posts/blog-hugo-github-pages/</link><pubDate>Sun, 09 May 2021 09:09:00 +0200</pubDate><guid>https://baris.io/posts/blog-hugo-github-pages/</guid><description>I always wanted to have a personal website where I write articles occasionally. Bought baris.io many years ago for this reason but finding time to blog consistently was really difficult for me. Between work, chores, friends/family, Twitch/YouTube/video games and rest, there was never enough time.
+While it also has some drawbacks, one of the few benefits of COVID-19 is that we are working from our homes, so I do not need to commute to work anymore.</description><content type="html"><![CDATA[<p>I always wanted to have a personal website where I write articles occasionally.
+Bought baris.io many years ago for this reason but finding time to blog consistently was really difficult for me.
+Between work, chores, friends/family, Twitch/YouTube/video games and rest, there was never enough time.</p>
+<p>While it also has some drawbacks, one of the few benefits of COVID-19 is that we are working from our homes,
+so I do not need to commute to work anymore. This means saving 1-2 hours every day that I can use to focus on a blog.</p>
+<h2 id="reasons-for-blogging">Reasons for blogging</h2>
+<p>Writing articles about technical topics is an incredibly effective way to learn. This is the main reason I want to have a blog.
+However, there are other benefits as well.</p>
+<ul>
+<li>Motivation to more thoroughly investigate things</li>
+<li>Building up a portfolio over time</li>
+<li>Practicing technical writing skills</li>
+<li>Having an online presence</li>
+</ul>
+<p>Also, I really feel like having progress on a publicly visible website for a long time would be really satisfying.</p>
+<h2 id="tech-stack">Tech Stack</h2>
+<p>I wanted a simple, fast, clean looking personal blog because I am a big fan of minimalist products.
+Features like multiple language support, comments, sign-ups, newsletters or any other dynamic data was not necessary in my opinion, at least initially.
+For these reasons, static site generators like hugo, jekyll and gatsby looked like good ideas.</p>
+<p>In the end I went with <a href="https://gohugo.io/">Hugo</a> and <a href="https://github.com/Track3/hermit">hermit</a> theme.</p>
+<p>All the code related to this blog is <a href="(https://github.com/mbaris/hugo-blog)">publicly available on GitHub</a></p>
+<p>The website is hosted on <a href="https://pages.github.com/">GitHub Pages</a></p>
+<p>Using baris.io as a custom domain by <a href="https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site">adding a CNAME file</a> to the repository</p>
+<p>GitHub Actions are used with <a href="https://github.com/peaceiris/actions-hugo">Hugo Setup Action </a> to build static files from templates and trigger a deployment after every commit.</p>
+<p>I am quite happy with the current tech stack because it costs me nothing apart from the domain name to host this website.
+It is also really easy to push updates and make changes.</p>
+<h2 id="pushing-an-update">Pushing an Update</h2>
+<p>The repository has two branches.
+<em>master</em> has hugo templates and markdown files
+<em>gh-pages</em> has the html, css and javascript file which can be hosted</p>
+<p>I create new posts with the command</p>
+<div class="highlight"><pre class="chroma"><code class="language-bash" data-lang="bash">hugo new posts/post-name.md
+</code></pre></div><p>Then edit markdown files on Intellij IDEA Community Edition. It might seem like an overkill but idea has a built-in
+markdown editor, git diff tool, terminal and a plugin for hugo server, so it is actually really effective in my opinion.</p>
+<p>After preparing markdown files, I push commits to the master branch on GitHub and GitHub Actions takes care of the rest.
+I eventually want to prepare more in depth posts about Observability or Infrastructure but
+my main focus right now writing posts consistently, even if they are a little shallow.</p>
+]]></content></item><item><title>Grafana Dashboard for Spring Boot via Micrometer and Prometheus</title><link>https://baris.io/posts/micrometer-spring-boot/</link><pubDate>Fri, 07 May 2021 10:10:24 +0200</pubDate><guid>https://baris.io/posts/micrometer-spring-boot/</guid><description>We will be implementing a grafana dashboard with metrics from a prometheus instance, which periodically fetches data from a Spring Boot App. I will keep this implementation as minimal as I can and will create another post with more detailed use cases.
 We will begin by generating a simple project on Spring Initialzr
 We just need the dependencies to Spring Boot Web, Spring Boot Actuator and Prometheus Registry for Micrometer. Once we import the project and run it, we will see in the logs that actuator is running for 2 endpoints already.</description><content type="html"><![CDATA[<p>We will be implementing a grafana dashboard with metrics from a prometheus instance, which periodically fetches data from a Spring Boot App.
 I will keep this implementation as minimal as I can and will create another post with more detailed use cases.</p>
