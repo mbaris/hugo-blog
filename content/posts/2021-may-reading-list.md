@@ -19,3 +19,11 @@ tags: ["reading"]
 [Signal - Instagram ads you will never see](https://signal.org/blog/the-instagram-ads-you-will-never-see/)
 
 [Cloud Native Glossary](https://github.com/cncf/glossary)
+
+[Smithy - A language for defining services and SDKs](https://awslabs.github.io/smithy/)
+
+[Java beats out C++, Rust, C#, and Golang in gRPC throughput performance](https://github.com/LesnyRumcajs/grpc_bench/wiki/2021-04-13-bench-results)
+
+[Correlating Signals - Observability](https://www.bwplotka.dev/2021/correlations-exemplars)
+
+[Java - teeing](https://blog.frankel.ch/teeing-java-api/)
