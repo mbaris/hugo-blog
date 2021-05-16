@@ -27,3 +27,9 @@ tags: ["reading"]
 [Correlating Signals - Observability](https://www.bwplotka.dev/2021/correlations-exemplars)
 
 [Java - teeing](https://blog.frankel.ch/teeing-java-api/)
+
+[systemd - the good parts](https://christine.website/talks/systemd-the-good-parts-2021-05-16)
+
+[Technical Blogging Basics](https://www.freecodecamp.org/news/technical-blogging-basics/)
+
+[Alternative to Captcha by Cloudflare](https://blog.cloudflare.com/introducing-cryptographic-attestation-of-personhood/)
