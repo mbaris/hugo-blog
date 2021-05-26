@@ -1,4 +1,38 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 09 May 2021 09:09:00 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Creating a Blog on a custom domain with GitHub Actions and Hugo</title><link>https://baris.io/posts/blog-hugo-github-pages/</link><pubDate>Sun, 09 May 2021 09:09:00 +0200</pubDate><guid>https://baris.io/posts/blog-hugo-github-pages/</guid><description>I always wanted to have a personal website where I write articles occasionally. Bought baris.io many years ago for this reason but finding time to blog consistently was really difficult for me. Between work, chores, friends/family, Twitch/YouTube/video games and rest, there was never enough time.
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 26 May 2021 16:00:00 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>2021 May Reading List</title><link>https://baris.io/posts/2021-may-reading-list/</link><pubDate>Wed, 26 May 2021 16:00:00 +0200</pubDate><guid>https://baris.io/posts/2021-may-reading-list/</guid><description>Serverless Email Server on AWS
+Why is continuous integration so important
+Hosting SQLite databases on Github Pages
+Listen to Postgresql changes via websockets
+The end of AMP
+Signal - Instagram ads you will never see
+Cloud Native Glossary
+Smithy - A language for defining services and SDKs
+Java beats out C++, Rust, C#, and Golang in gRPC throughput performance
+Correlating Signals - Observability
+Java - teeing
+systemd - the good parts</description><content type="html"><![CDATA[<p><a href="https://github.com/0x4447/0x4447_product_s3_email">Serverless Email Server on AWS</a></p>
+<p><a href="https://medium.com/the-making-of-whereby/why-continuous-integration-is-so-important-7bb63ba5dc57">Why is continuous integration so important</a></p>
+<p><a href="https://phiresky.github.io/blog/2021/hosting-sqlite-databases-on-github-pages/">Hosting SQLite databases on Github Pages</a></p>
+<p><a href="https://github.com/supabase/realtime">Listen to Postgresql changes via websockets</a></p>
+<p><a href="ttps://www.lafoo.com/the-end-of-amp/">The end of AMP</a></p>
+<p><a href="https://signal.org/blog/the-instagram-ads-you-will-never-see/">Signal - Instagram ads you will never see</a></p>
+<p><a href="https://github.com/cncf/glossary">Cloud Native Glossary</a></p>
+<p><a href="https://awslabs.github.io/smithy/">Smithy - A language for defining services and SDKs</a></p>
+<p><a href="https://github.com/LesnyRumcajs/grpc_bench/wiki/2021-04-13-bench-results">Java beats out C++, Rust, C#, and Golang in gRPC throughput performance</a></p>
+<p><a href="https://www.bwplotka.dev/2021/correlations-exemplars">Correlating Signals - Observability</a></p>
+<p><a href="https://blog.frankel.ch/teeing-java-api/">Java - teeing</a></p>
+<p><a href="https://christine.website/talks/systemd-the-good-parts-2021-05-16">systemd - the good parts</a></p>
+<p><a href="https://www.freecodecamp.org/news/technical-blogging-basics/">Technical Blogging Basics</a></p>
+<p><a href="https://blog.cloudflare.com/introducing-cryptographic-attestation-of-personhood/">Alternative to Captcha by Cloudflare</a></p>
+<p><a href="https://docs.scala-lang.org/scala3/new-in-scala3.html">Scala 3</a></p>
+<p><a href="https://developers.google.com/tech-writing/overview">Technical Writing by Google</a></p>
+<p><a href="https://sammancoaching.org/">Samman Technical Coaching</a></p>
+<p><a href="https://madned.substack.com/p/a-teenagers-guide-to-avoiding-actual">A teenagers guide to avoiding actual work</a></p>
+<p><a href="http://tutorials.jenkov.com/java-concurrency/concurrency-vs-parallelism.html">Concurrency vs Parallelism</a></p>
+<p><a href="https://blog.stackblitz.com/posts/introducing-webcontainers/">Webcontainers - Run NodeJS in your browser</a></p>
+<p><a href="https://talawah.io/blog/extreme-http-performance-tuning-one-point-two-million/">Extreme Http Performance Tuning</a></p>
+<p><a href="https://eng.uber.com/architecture-api-gateway/">Uber&rsquo;s API Gateway</a></p>
+<p><a href="https://github.blog/2021-05-26-why-and-how-github-is-adopting-opentelemetry/">Why and How GitHub is adopting OpenTelemetry</a></p>
+]]></content></item><item><title>Creating a Blog on a custom domain with GitHub Actions and Hugo</title><link>https://baris.io/posts/blog-hugo-github-pages/</link><pubDate>Sun, 09 May 2021 09:09:00 +0200</pubDate><guid>https://baris.io/posts/blog-hugo-github-pages/</guid><description>I always wanted to have a personal website where I write articles occasionally. Bought baris.io many years ago for this reason but finding time to blog consistently was really difficult for me. Between work, chores, friends/family, Twitch/YouTube/video games and rest, there was never enough time.
 While it also has some drawbacks, one of the few benefits of COVID-19 is that we are working from our homes, so I do not need to commute to work anymore.</description><content type="html"><![CDATA[<p>I always wanted to have a personal website where I write articles occasionally.
 Bought baris.io many years ago for this reason but finding time to blog consistently was really difficult for me.
 Between work, chores, friends/family, Twitch/YouTube/video games and rest, there was never enough time.</p>
