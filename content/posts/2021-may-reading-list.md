@@ -1,7 +1,7 @@
 ---
 title: "2021 May Reading List"
-date: 2021-05-30T16:00:00+02:00
-draft: true
+date: 2021-05-26T16:00:00+02:00
+draft: false
 description: "reading list with articles or videos I enjoyed during May 2021"
 tags: ["reading"]
 ---
@@ -33,3 +33,21 @@ tags: ["reading"]
 [Technical Blogging Basics](https://www.freecodecamp.org/news/technical-blogging-basics/)
 
 [Alternative to Captcha by Cloudflare](https://blog.cloudflare.com/introducing-cryptographic-attestation-of-personhood/)
+
+[Scala 3](https://docs.scala-lang.org/scala3/new-in-scala3.html)
+
+[Technical Writing by Google](https://developers.google.com/tech-writing/overview)
+
+[Samman Technical Coaching](https://sammancoaching.org/)
+
+[A teenagers guide to avoiding actual work](https://madned.substack.com/p/a-teenagers-guide-to-avoiding-actual)
+
+[Concurrency vs Parallelism](http://tutorials.jenkov.com/java-concurrency/concurrency-vs-parallelism.html)
+
+[Webcontainers - Run NodeJS in your browser](https://blog.stackblitz.com/posts/introducing-webcontainers/)
+
+[Extreme Http Performance Tuning](https://talawah.io/blog/extreme-http-performance-tuning-one-point-two-million/)
+
+[Uber's API Gateway](https://eng.uber.com/architecture-api-gateway/)
+
+[Why and How GitHub is adopting OpenTelemetry](https://github.blog/2021-05-26-why-and-how-github-is-adopting-opentelemetry/)
