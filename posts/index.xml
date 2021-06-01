@@ -69,7 +69,6 @@ I had the chance to use are:</p>
 <li>spring cloud sleuth</li>
 <li>webclient</li>
 </ul>
-<h2 id="lessons-learned">Lessons Learned</h2>
 <h3 id="webclient">WebClient</h3>
 <p>WebClient is a replacement for RestTemplate in the reactive world. It is a strong, fast and modern client which can be
 used in non-reactive java apps as well. It is really easy to implement retry policies, request timeouts, error handling
@@ -84,6 +83,7 @@ logs from a request.</p>
 different requests concurrently. There is still a way to carry contextual data in WebFlux though. We can do it manually,
 but Sleuth not only makes it easier to use the <em>subscriber context</em> to carry information, it also adds tracing variables
 in opentracing format if you want. It also helps if you want to extract tracing headers.</p>
+<h2 id="lessons-learned">Lessons Learned</h2>
 <h3 id="built-in-reliability-functions">Built-in reliability functions</h3>
 <p>Functions like timeout, retry, log and doOnError are incredibly useful. In fact, not using doOnError might mean missing
 errors in some cases.</p>
