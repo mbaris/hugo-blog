@@ -16,8 +16,12 @@ completely non-blocking.</p>
 <p>The first things we need to realize with WebFlux is why blocking calls is an undesirable thing. One of the most
 important benefits of WebFlux is that it uses a low number of threads compared to WebMVC. Using a low number of threads
 can be better because creating each thread has a cost of memory and each context switch wastes some time.</p>
-<p>However, using a low number of threads mean each one of them is more precious so any blocking call could result in a
-huge performance issue.</p>
+<p>With WebMVC, when we make a database call, the thread can wait until it gets a response because there are usually
+hundreds of them to handle concurrent requests.</p>
+<p>With WebFlux instead of waiting until the network call to finished, we assign a callback function which would work on
+the result, and this worker thread would continue consuming tasks from the event-loop. If we design our system
+correctly, this is a really efficient use of resources. Although, using a low number of threads mean each one of them is
+more precious so any blocking call could result in a huge performance issue.</p>
 <p>This is why we should be comfortable working with Publishers and Subscribers instead of actual POJOs.</p>
 <div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Record</span><span class="o">&gt;</span> <span class="nf">save</span><span class="o">(</span><span class="n">Record</span> <span class="n">record</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">return</span> <span class="n">recordRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">record</span><span class="o">)</span>
