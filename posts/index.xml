@@ -89,9 +89,9 @@ thread-per-request approach.</p>
 to the layer where we make database calls. For an example, we can use MDC from log4j to append correlationIds to all
 logs from a request.</p>
 <p>Implementing the same thing in WebFlux is a little more difficult because a low number of threads process callbacks from
-different requests concurrently. There is still a way to carry contextual data in WebFlux though. We can do it manually,
-but Sleuth not only makes it easier to use the <em>subscriber context</em> to carry information, it also adds tracing variables
-in opentracing format if we want. It also helps if we want to extract tracing headers.</p>
+different requests concurrently. There is still a way to carry contextual data in WebFlux through subscriber context. We
+can implement it ourselves manually, but Sleuth not only makes context propagation easier, it also adds tracing
+variables to the context in opentracing format if we want.</p>
 <h3 id="webclient">WebClient</h3>
 <p>WebClient is a replacement for RestTemplate in the reactive world. It is a strong, fast and modern client which can be
 used in non-reactive java apps as well. It is really easy to implement retry policies, request timeouts, error handling
