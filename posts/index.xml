@@ -75,8 +75,8 @@ I had the chance to use are:</p>
 used in non-reactive java apps as well. It is really easy to implement retry policies, request timeouts, error handling
 and logging after getting used to it.</p>
 <h3 id="spring-cloud-sleuth">Spring Cloud Sleuth</h3>
-<p>Using Thread Local to carry contextual data all the way from filters, controllers to the repository layer is easy to
-accomplish in WebMVC applications because of the thread-per-request approach.</p>
+<p>Using Thread Local to carry contextual data is easy to accomplish in WebMVC applications because of the
+thread-per-request approach.</p>
 <p>Carrying contextual data is useful when it is difficult to carry a parameter like an id from WebFilters all the way down
 to the layer where we make database calls. For an example, we can use MDC from log4j to append correlationIds to all
 logs from a request.</p>
