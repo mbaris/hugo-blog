@@ -24,9 +24,14 @@ should be comfortable working with Publishers and Subscribers instead of actual 
 <span class="o">}</span>
 </code></pre></div><p>Calling the save method with a Record is not enough to save it to the database. If we were to use project reactor alone,
 we would need to subscribe to Publishers manually.</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">recordService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">record</span><span class="o">).</span><span class="na">subscribe</span><span class="o">()</span>
-</code></pre></div><p>In WebFlux however, we should be returning Mono/Flux in our Controllers. we should not worry about concurrency and
-WebFlux should handle subscriptions to our publishers.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">recordService</span><span class="o">.</span><span class="na">saveBatch</span><span class="o">(</span><span class="n">records</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">subscribe</span><span class="o">(</span>
+        <span class="n">i</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i</span><span class="o">),</span> <span class="c1">// on next item
+</span><span class="c1"></span>        <span class="n">error</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Error &#34;</span> <span class="o">+</span> <span class="n">error</span><span class="o">),</span> <span class="c1">// on error
+</span><span class="c1"></span>        <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">&#34;Done&#34;</span><span class="o">)</span> <span class="c1">// on complete
+</span><span class="c1"></span>    <span class="o">);</span>
+</code></pre></div><p>However, we should be returning Mono/Flux in our Controllers anyway. So we don&rsquo;t need to worry about schedulers or
+subscriptions and WebFlux should handle subscriptions to our publishers.</p>
 <div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@PostMapping</span>
 <span class="kd">public</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Record</span><span class="o">&gt;</span> <span class="nf">save</span><span class="o">(</span><span class="nd">@Valid</span> <span class="nd">@RequestBody</span> <span class="n">Record</span> <span class="n">record</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">return</span> <span class="n">recordService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">record</span><span class="o">);</span>
