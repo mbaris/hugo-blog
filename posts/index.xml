@@ -15,7 +15,7 @@ completely non-blocking.</p>
 <h2 id="non-blocking">Non-blocking</h2>
 <p>The first things we need to realize with WebFlux is why blocking calls is an undesirable thing. One of the most
 important benefits of WebFlux is that it uses a low number of threads compared to WebMVC. Using a low number of threads
-can be better because creating a thread has cost of memory and time due to context switches.</p>
+can be better because creating each thread has a cost of memory and each context switch wastes some time.</p>
 <p>However, using a low number of threads mean each one of them is more precious so any blocking call could result in a
 huge performance issue.</p>
 <p>This is why we should be comfortable working with Publishers and Subscribers instead of actual POJOs.</p>
