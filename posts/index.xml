@@ -68,7 +68,7 @@ Scheduler)</p>
 <div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">recordService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">record</span><span class="o">)</span>
     <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">boundedElastic</span><span class="o">())</span>
     <span class="o">.</span><span class="na">subscribe</span><span class="o">()</span>
-</code></pre></div><h2 id="libraries">Libraries</h2>
+</code></pre></div><h3 id="libraries">Libraries</h3>
 <p>Spring already has a strong suite of libraries supporting reactive web apps with non-blocking functions. Some libraries
 I had the chance to use are:</p>
 <ul>
@@ -101,7 +101,8 @@ and logging after getting used to it.</p>
 <p>We can still use traditional Controllers with annotations like @PostMapping or @GetMapping but there is a functional
 alternative in WebFlux named <em>WebFlux.fn</em>. HandlerFunction and RouterFunction are interfaces which we can use to create
 request handlers.</p>
-<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">HandlerFunction</span><span class="o">&lt;</span><span class="n">ServerResponse</span><span class="o">&gt;</span> <span class="n">helloWorld</span> <span class="o">=</span> <span class="n">request</span> <span class="o">-&gt;</span> <span class="n">ServerResponse</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">bodyValue</span><span class="o">(</span><span class="s">&#34;Hello World&#34;</span><span class="o">);</span>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">HandlerFunction</span><span class="o">&lt;</span><span class="n">ServerResponse</span><span class="o">&gt;</span> <span class="n">helloWorld</span> <span class="o">=</span> 
+    <span class="n">request</span> <span class="o">-&gt;</span> <span class="n">ServerResponse</span><span class="o">.</span><span class="na">ok</span><span class="o">().</span><span class="na">bodyValue</span><span class="o">(</span><span class="s">&#34;Hello World&#34;</span><span class="o">);</span>
 </code></pre></div><div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">RouterFunction</span><span class="o">&lt;</span><span class="n">ServerResponse</span><span class="o">&gt;</span> <span class="n">route</span> <span class="o">=</span> <span class="n">route</span><span class="o">()</span>
     <span class="o">.</span><span class="na">path</span><span class="o">(</span><span class="s">&#34;/person&#34;</span><span class="o">,</span> <span class="n">builder</span> <span class="o">-&gt;</span> <span class="n">builder</span>
         <span class="o">.</span><span class="na">GET</span><span class="o">(</span><span class="s">&#34;/{id}&#34;</span><span class="o">,</span> <span class="n">accept</span><span class="o">(</span><span class="n">APPLICATION_JSON</span><span class="o">),</span> <span class="n">handler</span><span class="o">::</span><span class="n">getPerson</span><span class="o">)</span>
