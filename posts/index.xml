@@ -22,7 +22,7 @@ hundreds of them to handle concurrent requests.</p>
 the result, and this worker thread would continue consuming tasks from the event-loop. If we design our system
 correctly, this is a really efficient use of resources. Although, using a low number of threads mean each one of them is
 more precious so any blocking call could result in a huge performance issue.</p>
-<p>This is why we should be comfortable working with Publishers and Subscribers instead of actual POJOs.</p>
+<p>This is why we should be comfortable working with Publishers and Subscribers in a function manner.</p>
 <div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Record</span><span class="o">&gt;</span> <span class="nf">save</span><span class="o">(</span><span class="n">Record</span> <span class="n">record</span><span class="o">)</span> <span class="o">{</span>
     <span class="k">return</span> <span class="n">recordRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">record</span><span class="o">)</span>
             <span class="o">.</span><span class="na">retry</span><span class="o">(</span><span class="n">5</span><span class="o">)</span>
