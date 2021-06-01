@@ -92,11 +92,11 @@ errors in some cases.</p>
 line blocking takes place. Since blocking can cause huge performance issues on production, preventing them is a big
 issue.</p>
 <h3 id="publisher-and-subscriber-functions">Publisher and Subscriber Functions</h3>
-<p>Get comfortable with functions on Mono and Flux. Things like resumeOnError, flatmap, Mono.defer() may look like optional
-at first, but there are many use cases for them even in basic applications.</p>
+<p>Get comfortable with functions on Mono and Flux. Functions like onErrorResume, onErrorReturn, flatmap, merge or
+Mono.defer() may look like optional at first. There are many use cases for them even in the most basic applications.</p>
 <h3 id="webfilters">WebFilters</h3>
-<p>WebFilters are an alternative to filters from WebMVC. They are pretty similar, but they work in a non-blocking way. This
-is one of the main benefits of WebFlux over WebMVC with non-blocking io.</p>
+<p>WebFilters are the replacement to Filters from WebMVC. They are pretty similar, but they work in a non-blocking way.
+This is one of the main benefits of WebFlux over WebMVC with non-blocking io.</p>
 <h3 id="spring-mvc-dependencies">Spring MVC dependencies</h3>
 <p>Make sure you do not have spring-boot-starter-web in your classpath, otherwise your application might not be running in
 reactive mode.
