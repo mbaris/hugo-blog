@@ -1,4 +1,110 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 26 May 2021 16:00:00 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>2021 May Reading List</title><link>https://baris.io/posts/2021-may-reading-list/</link><pubDate>Wed, 26 May 2021 16:00:00 +0200</pubDate><guid>https://baris.io/posts/2021-may-reading-list/</guid><description>Serverless Email Server on AWS
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on baris.io</title><link>https://baris.io/posts/</link><description>Recent content in Posts on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 01 Jun 2021 18:00:00 +0200</lastBuildDate><atom:link href="https://baris.io/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>Reactive Web app with Spring WebFlux</title><link>https://baris.io/posts/webflux-reactive/</link><pubDate>Tue, 01 Jun 2021 18:00:00 +0200</pubDate><guid>https://baris.io/posts/webflux-reactive/</guid><description>Spring WebFlux is a reactive-stack web framework.
+Reactive Reactive, in this context refers to design guidelines on providing resilient, responsive, scalable and message driven applications. Reactive Manifesto is an important document about this topic.
+WebFlux is built on reactive-streams specification, which only has components like Subscriber, Publisher, Subscription and Processor. Instead of building their custom implementation based on this specification, WebFlux uses the ProjectReactor library. Project Reactor is an incredibly well implementation of reactive streams with Mono and Flux as their publishers.</description><content type="html"><![CDATA[<p>Spring WebFlux is a reactive-stack web framework.</p>
+<h2 id="reactive">Reactive</h2>
+<p>Reactive, in this context refers to design guidelines on providing resilient, responsive, scalable and message driven
+applications. <a href="https://www.reactivemanifesto.org">Reactive Manifesto</a> is an important document about this topic.</p>
+<p>WebFlux is built on <a href="https://www.reactive-streams.org/">reactive-streams</a> specification, which only has components like
+Subscriber, Publisher, Subscription and Processor. Instead of building their custom implementation based on this
+specification, WebFlux uses the <a href="https://projectreactor.io/">ProjectReactor</a> library. Project Reactor is an incredibly
+well implementation of reactive streams with Mono and Flux as their publishers.</p>
+<h2 id="webmvc-and-webflux">WebMVC and WebFlux</h2>
+<p>While WebFlux is a new and more modern way of creating web applications, it is not necessarily faster or easier to use.
+It is important to note that WebMVC also has a non-blocking io support. However, filters and route functions are not
+completely non-blocking.</p>
+<h2 id="non-blocking">Non-blocking</h2>
+<p>One of the first things you need to realize with WebFlux is that blocking calls is an undesirable thing. This is why you
+should be comfortable working with Publishers and Subscribers instead of actual POJOs.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Record</span><span class="o">&gt;</span> <span class="nf">save</span><span class="o">(</span><span class="n">Record</span> <span class="n">record</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">recordRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">record</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">retry</span><span class="o">(</span><span class="n">5</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">timeout</span><span class="o">(</span><span class="n">Duration</span><span class="o">.</span><span class="na">ofMillis</span><span class="o">(</span><span class="n">500</span><span class="o">))</span>
+            <span class="o">.</span><span class="na">doOnNext</span><span class="o">(</span><span class="k">this</span><span class="o">::</span><span class="n">sendEvent</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">doOnError</span><span class="o">(</span><span class="n">e</span> <span class="o">-&gt;</span> <span class="n">LOG</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">&#34;Something went wrong&#34;</span><span class="o">,</span> <span class="n">e</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div><p>Calling the save method with a Record is not enough to save it to the database. If we were to use project reactor alone,
+we would need to subscribe to Publishers manually.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">recordService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">record</span><span class="o">).</span><span class="na">subscribe</span><span class="o">()</span>
+</code></pre></div><p>In WebFlux however, we should be returning Mono/Flux in our Controllers. we should not worry about concurrency and
+WebFlux should handle subscriptions to our publishers.</p>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="nd">@PostMapping</span>
+<span class="kd">public</span> <span class="n">Mono</span><span class="o">&lt;</span><span class="n">Record</span><span class="o">&gt;</span> <span class="nf">save</span><span class="o">(</span><span class="nd">@Valid</span> <span class="nd">@RequestBody</span> <span class="n">Record</span> <span class="n">record</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">recordService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">record</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div><p>would actually save the item to the database.</p>
+<p>There might be some instances where we want to run some functions asynchronously. We should use schedulers in these
+cases.</p>
+<h3 id="schedulershttpsprojectreactoriodocscorereleaseapireactorcoreschedulerschedulershtml"><a href="https://projectreactor.io/docs/core/release/api/reactor/core/scheduler/Schedulers.html">Schedulers</a></h3>
+<blockquote>
+<p>parallel(): Optimized for fast Runnable non-blocking executions</p>
+</blockquote>
+<blockquote>
+<p>single(): Optimized for low-latency Runnable one-off executions</p>
+</blockquote>
+<blockquote>
+<p>elastic(): Optimized for longer executions, an alternative for blocking tasks where the number of active tasks (and threads) can grow indefinitely</p>
+</blockquote>
+<blockquote>
+<p>boundedElastic(): Optimized for longer executions, an alternative for blocking tasks where the number of active tasks (
+and threads) is capped</p>
+</blockquote>
+<blockquote>
+<p>immediate(): to immediately run submitted Runnable instead of scheduling them (somewhat of a no-op or &ldquo;null object&rdquo;
+Scheduler)</p>
+</blockquote>
+<div class="highlight"><pre class="chroma"><code class="language-java" data-lang="java"><span class="n">recordService</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">record</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">subscribeOn</span><span class="o">(</span><span class="n">Schedulers</span><span class="o">.</span><span class="na">boundedElastic</span><span class="o">())</span>
+    <span class="o">.</span><span class="na">subscribe</span><span class="o">()</span>
+</code></pre></div><h2 id="libraries">Libraries</h2>
+<p>Spring already has a strong suite of libraries supporting reactive web apps with non-blocking functions. Some libraries
+I had the chance to use are:</p>
+<ul>
+<li>spring security</li>
+<li>spring actuator</li>
+<li>micrometer</li>
+<li>r2dbc</li>
+<li>reactive redis</li>
+<li>spring data</li>
+<li>thymeleaf</li>
+<li>spring cloud sleuth</li>
+<li>webclient</li>
+</ul>
+<h2 id="lessons-learned">Lessons Learned</h2>
+<h3 id="webclient">WebClient</h3>
+<p>WebClient is a replacement for RestTemplate in the reactive world. It is a strong, fast and modern client which can be
+used in non-reactive java apps as well. It is really easy to implement retry policies, request timeouts, error handling
+and logging after getting used to it.</p>
+<h3 id="spring-cloud-sleuth">Spring Cloud Sleuth</h3>
+<p>Using Thread Local to carry contextual data all the way from filters, controllers to the repository layer is easy to
+accomplish in WebMVC applications because of the thread-per-request approach.</p>
+<p>Carrying contextual data is useful when it is difficult to carry a parameter like an id from WebFilters all the way down
+to the layer where we make database calls. For an example, we can use MDC from log4j to append correlationIds to all
+logs from a request.</p>
+<p>Implementing the same thing in WebFlux is a little more difficult because a low number of threads process callbacks from
+different requests concurrently. There is still a way to carry contextual data in WebFlux though. We can do it manually,
+but Sleuth not only makes it easier to use the <em>subscriber context</em> to carry information, it also adds tracing variables
+in opentracing format if you want. It also helps if you want to extract tracing headers.</p>
+<h3 id="built-in-reliability-functions">Built-in reliability functions</h3>
+<p>Functions like timeout, retry, log and doOnError are incredibly useful. In fact, not using doOnError might mean missing
+errors in some cases.</p>
+<h3 id="blockhound">BlockHound</h3>
+<p>BlockHound is a java agent which detects blocking function calls in our Project Reactor apps. It helps by telling us the
+line blocking takes place. Since blocking can cause huge performance issues on production, preventing them is a big
+issue.</p>
+<h3 id="publisher-and-subscriber-functions">Publisher and Subscriber Functions</h3>
+<p>Get comfortable with functions on Mono and Flux. Things like resumeOnError, flatmap, Mono.defer() may look like optional
+at first, but there are many use cases for them even in basic applications.</p>
+<h3 id="webfilters">WebFilters</h3>
+<p>WebFilters are an alternative to filters from WebMVC. They are pretty similar, but they work in a non-blocking way. This
+is one of the main benefits of WebFlux over WebMVC with non-blocking io.</p>
+<h3 id="spring-mvc-dependencies">Spring MVC dependencies</h3>
+<p>Make sure you do not have spring-boot-starter-web in your classpath, otherwise your application might not be running in
+reactive mode.
+From <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.developing-web-applications.spring-webflux">WebFlux Documents</a></p>
+<blockquote>
+<p>Adding both spring-boot-starter-web and spring-boot-starter-webflux modules in your application results in Spring Boot auto-configuring Spring MVC, not WebFlux. This behavior has been chosen because many Spring developers add spring-boot-starter-webflux to their Spring MVC application to use the reactive WebClient. You can still enforce your choice by setting the chosen application type to SpringApplication.setWebApplicationType(WebApplicationType.REACTIVE).</p>
+</blockquote>
+]]></content></item><item><title>2021 May Reading List</title><link>https://baris.io/posts/2021-may-reading-list/</link><pubDate>Wed, 26 May 2021 16:00:00 +0200</pubDate><guid>https://baris.io/posts/2021-may-reading-list/</guid><description>Serverless Email Server on AWS
 Why is continuous integration so important
 Hosting SQLite databases on Github Pages
 Listen to Postgresql changes via websockets
