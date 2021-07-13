@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>baris.io</title><link>https://baris.io/</link><description>Recent content on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 01 Jun 2021 18:00:00 +0200</lastBuildDate><atom:link href="https://baris.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Reactive Web Apps with Spring WebFlux</title><link>https://baris.io/posts/webflux-reactive/</link><pubDate>Tue, 01 Jun 2021 18:00:00 +0200</pubDate><guid>https://baris.io/posts/webflux-reactive/</guid><description>WebFlux is a web framework based on top of a reactive stack.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>baris.io</title><link>https://baris.io/</link><description>Recent content on baris.io</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 25 Jun 2021 16:00:00 +0200</lastBuildDate><atom:link href="https://baris.io/index.xml" rel="self" type="application/rss+xml"/><item><title>2021 June Reading List</title><link>https://baris.io/posts/2021-june-reading-list/</link><pubDate>Fri, 25 Jun 2021 16:00:00 +0200</pubDate><guid>https://baris.io/posts/2021-june-reading-list/</guid><description>Things your manager might not now
+QUIC is now RFC 9000
+Second Guessing the Modern Web
+Sign a PDF
+Check if email exists
+Zero Knowledge
+Hammock Driven Development
+Learn by reading code. Python standard library design decisions
+Python best practices
+Your product is a joke
+Emoji Arithmetics - Bear plus snowflake equals polar bear
+Blog as a digital garden
+RipGrep - regex search in current directory
+Why doesn&amp;rsquo;t V8 fit in microcontrollers</description></item><item><title>Reactive Web Apps with Spring WebFlux</title><link>https://baris.io/posts/webflux-reactive/</link><pubDate>Tue, 01 Jun 2021 18:00:00 +0200</pubDate><guid>https://baris.io/posts/webflux-reactive/</guid><description>WebFlux is a web framework based on top of a reactive stack.
 Reactive In this context, reactive refers to design guidelines on providing resilient, responsive, scalable and message driven applications. Reactive Manifesto is an important document about this topic.
 WebFlux is built on reactive-streams specification, which only has components like Subscriber, Publisher, Subscription and Processor. Instead of building their custom implementation based on this specification, WebFlux uses the ProjectReactor library. Project Reactor is an incredibly well implementation of reactive streams with Mono and Flux as their publishers.</description></item><item><title>2021 May Reading List</title><link>https://baris.io/posts/2021-may-reading-list/</link><pubDate>Wed, 26 May 2021 16:00:00 +0200</pubDate><guid>https://baris.io/posts/2021-may-reading-list/</guid><description>Serverless Email Server on AWS
 Why is continuous integration so important
